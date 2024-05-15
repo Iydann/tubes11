@@ -1,0 +1,8 @@
+module com.example.tubes11 {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+
+    opens com.example.tubes11 to javafx.fxml;
+    exports com.example.tubes11;
+}
