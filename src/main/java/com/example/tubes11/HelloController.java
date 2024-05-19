@@ -1,5 +1,6 @@
 package com.example.tubes11;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +15,18 @@ public class HelloController {
     private Button btn_login;
     @FXML
     private Label label_login;
+    public void loginButtonAction(ActionEvent e) {
+        //code for show label notification login
+        if (txt_username.getText().isBlank() && txt_password.getText().isBlank()) {
+            label_login.setText("Username and password cannot be empty!");
+        } else if (!txt_username.getText().isBlank() && !txt_password.getText().isBlank()) {
+            label_login.setText("Trying to Login...");
+        } else if (txt_username.getText().isBlank()) {
+            label_login.setText("Please fill in the Username!");
+        } else if (txt_password.getText().isBlank()) {
+            label_login.setText("Please fill in the Password!");
+        }
+    }
     @FXML
     private TextField txt_username;
     @FXML
@@ -25,6 +38,26 @@ public class HelloController {
     private Button btn_signup;
     @FXML
     private Label label_signup;
+
+    public void signUpButtonAction(ActionEvent e) {
+        String username = txt_username_up.getText();
+        String password = txt_password_up.getText();
+        String email = email_up.getText();
+
+        if (username.isBlank() && password.isBlank() && email.isBlank()) {
+            label_signup.setText("Please fill in the data above first!");
+        } else if (username.isBlank() && password.isBlank()) {
+            label_signup.setText("Username and password cannot be empty!");
+        } else if (username.isBlank()) {
+            label_signup.setText("Please fill in the Username!");
+        } else if (password.isBlank()) {
+            label_signup.setText("Please fill in the Password!");
+        } else if (email.isBlank()) {
+            label_signup.setText("Please fill in the Email!");
+        } else {
+            label_signup.setText("Trying to Sign Up...");
+        }
+    }
     @FXML
     private TextField txt_username_up;
     @FXML
