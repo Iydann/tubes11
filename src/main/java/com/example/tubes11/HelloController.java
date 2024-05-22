@@ -8,7 +8,13 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class HelloController {
+    @FXML
+    private AnchorPane pane_start;
     @FXML
     private AnchorPane pane_login;
     @FXML
@@ -21,6 +27,8 @@ public class HelloController {
             label_login.setText("Username and password cannot be empty!");
         } else if (!txt_username.getText().isBlank() && !txt_password.getText().isBlank()) {
             label_login.setText("Trying to Login...");
+            //uji coba database, tp dimatiin aja soalnya gk work dilaptop lain keknya
+            //validateLogin();
         } else if (txt_username.getText().isBlank()) {
             label_login.setText("Please fill in the Username!");
         } else if (txt_password.getText().isBlank()) {
@@ -79,13 +87,39 @@ public class HelloController {
 
     @FXML
     public void handleSwitchToSignup() {
+        pane_start.setVisible(false);
         pane_login.setVisible(false);
         pane_signup.setVisible(true);
     }
 
     @FXML
     public void handleSwitchToLogin() {
+        pane_start.setVisible(false);
         pane_signup.setVisible(false);
         pane_login.setVisible(true);
     }
+
+    public void validateLogin() {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = '" + txt_username.getText() + "' AND password = '" + txt_password.getText() + "'";
+
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(verifyLogin);
+
+            while (queryResult.next()) {
+                if (queryResult.getInt(1) == 1) {
+                    label_login.setText("Welcome!");
+                } else {
+                    label_login.setText("Invalid login, please try again.");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

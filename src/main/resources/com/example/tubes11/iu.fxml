@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tubes11.HelloController">
@@ -30,7 +31,8 @@
                </HBox.margin>
             </Button>
          </HBox>
-         <AnchorPane fx:id="pane_login" prefHeight="324.0" prefWidth="600.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="318.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+         <AnchorPane fx:id="pane_login" prefHeight="324.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <Button fx:id="btn_login" layoutX="252.0" layoutY="261.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="38.0" prefWidth="96.0" style="-fx-background-color: #76ff33;" text="Login" />
             <Label layoutX="256.0" layoutY="14.0" prefHeight="38.0" prefWidth="87.0" text="Login" textAlignment="CENTER" textFill="#fffbfb">
                <font>
@@ -62,6 +64,21 @@
                   <Font size="15.0" />
                </font>
             </Label>
+         </AnchorPane>
+         <AnchorPane fx:id="pane_start" prefHeight="318.0" prefWidth="600.0">
+            <children>
+               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="331.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+               <Label layoutX="154.0" layoutY="80.0" prefHeight="47.0" prefWidth="292.0" text="Money Manager" textAlignment="CENTER" textFill="WHITE">
+                  <font>
+                     <Font name="Times New Roman Bold" size="41.0" />
+                  </font>
+               </Label>
+               <Label layoutX="177.0" layoutY="127.0" prefHeight="38.0" prefWidth="246.0" text="&quot;record your expenses wisely&quot;" textAlignment="CENTER" textFill="WHITE">
+                  <font>
+                     <Font name="Times New Roman" size="20.0" />
+                  </font>
+               </Label>
+            </children>
          </AnchorPane>
       </AnchorPane>
    </AnchorPane>
