@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class HelloController {
+public class LoginController {
     @FXML
     private AnchorPane pane_start;
     @FXML
@@ -26,9 +26,9 @@ public class HelloController {
         if (txt_username.getText().isBlank() && txt_password.getText().isBlank()) {
             label_login.setText("Username and password cannot be empty!");
         } else if (!txt_username.getText().isBlank() && !txt_password.getText().isBlank()) {
-            label_login.setText("Trying to Login...");
+            //label_login.setText("Trying to Login...");
             //uji coba database, tp dimatiin aja soalnya gk work dilaptop lain keknya
-            //validateLogin();
+            validateLogin();
         } else if (txt_username.getText().isBlank()) {
             label_login.setText("Please fill in the Username!");
         } else if (txt_password.getText().isBlank()) {
