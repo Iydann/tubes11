@@ -120,9 +120,9 @@ public class LoginController {
         pane_login.setVisible(true);
     }
 
-    //untuk mendelay Runnable Action 1 detik
+    //untuk mendelay Runnable Action beberapa detik
     private void delay(Runnable action) {
-        PauseTransition delay = new PauseTransition(Duration.seconds(1));
+        PauseTransition delay = new PauseTransition(Duration.seconds(0.5));
         delay.setOnFinished(event -> action.run());
         delay.play();
     }

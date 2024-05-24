@@ -11,7 +11,7 @@ public class MoneyManagerApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MoneyManagerApplication.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 620, 390);
+        Scene scene = new Scene(fxmlLoader.load(), 600, 390);
         stage.setTitle("");
         stage.setScene(scene);
         stage.show();
