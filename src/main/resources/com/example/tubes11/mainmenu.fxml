@@ -27,7 +27,7 @@
             </AnchorPane>
             <AnchorPane layoutX="514.0" layoutY="14.0" prefHeight="510.0" prefWidth="274.0" style="-fx-background-color: #0759E5; -fx-background-radius: 22;">
                <children>
-                  <TableView layoutX="3.0" layoutY="55.0" prefHeight="440.0" prefWidth="268.0" style="-fx-background-color: #0759E5;">
+                  <TableView fx:id="historyKeuangan" layoutX="3.0" layoutY="55.0" prefHeight="440.0" prefWidth="268.0" style="-fx-background-color: #0759E5;">
                      <columns>
                         <TableColumn text="Tanggal" />
                         <TableColumn prefWidth="76.80010986328125" text="Kategori" />
