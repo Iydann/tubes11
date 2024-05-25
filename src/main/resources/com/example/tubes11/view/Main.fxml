@@ -61,11 +61,6 @@
                </font>
             </Text>
             <Label fx:id="dateLabel" layoutX="808.0" layoutY="49.0" style="-fx-text-fill: #aaaaaa; -fx-font-size: 1.1em; -fx-font-family: &quot;Calibri Light&quot;;" text="Today. 2022-05-02" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="27.0" />
-            <Text layoutX="24.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="Account Summary" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="90.0">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
             <Text layoutX="500.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="My Accounts" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
                <font>
                   <Font size="18.0" />
@@ -96,9 +91,9 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saving Goal" />
                   <Label fx:id="Savinggoal" style="-fx-text-fill: #00aa00; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="Rp. 0,00" />
                   <Line endX="160.0" />
-                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses" />
+                  <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set Saving Goal" />
                   <TextField fx:id="savingfield" onAction="#initialize" prefHeight="0.0" prefWidth="181.0" style="-fx-pref-height: 20; -fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
-                  <Button fx:id="addsavingbutton" mnemonicParsing="false" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Add" />
+                  <Button fx:id="addsavingbutton" mnemonicParsing="false" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Set" />
                </children>
             </VBox>
             <ListView fx:id="transactionListView" layoutX="42.0" layoutY="343.0" prefHeight="395.0" prefWidth="570.0" style="-fx-background-color: #eeeeee; -fx-border-width: 0 0 0 0; -fx-border-color: #aaaaaa; -fx-border-radius: 2; -fx-border-width: 1;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="350.0" />

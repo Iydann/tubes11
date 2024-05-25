@@ -126,6 +126,9 @@ public class MainController {
     private double spending = 0.00;
     private double savingGoal = 0.00;
 
+    private double previousBalance = 0.00;
+    private double previousSpending = 0.00;
+    private double previousSavingGoal = 0.00;
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
 
@@ -161,7 +164,7 @@ public class MainController {
     }
 
     private void addTransaction() {
-        String type = (String) transactionTypeChoiceBox.getValue();
+        String type = transactionTypeChoiceBox.getValue();
         String amountText = amountField.getText();
         String note = noteField.getText();
 
@@ -173,6 +176,9 @@ public class MainController {
             alert.showAndWait();
             return;
         }
+
+        // Save current state before modifying it
+        saveCurrentState();
 
         double amount = Double.parseDouble(amountText);
         String transaction = String.format("%s: Rp. %.2f - %s", type, amount, note);
@@ -210,6 +216,9 @@ public class MainController {
             return;
         }
 
+        // Save current state before modifying it
+        saveCurrentState();
+
         savingGoal = Double.parseDouble(amountText);
         updateLabels();
         savingfield.clear();
@@ -218,32 +227,22 @@ public class MainController {
     private void clearSelectedTransactions() {
         ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
         transactionList.removeAll(selectedItems);
-        updateLabelsAfterClearing(selectedItems);
+
+              restorePreviousState();
     }
 
-    private void updateLabelsAfterClearing(ObservableList<String> clearedItems) {
-        for (String transaction : clearedItems) {
-            String[] parts = transaction.split(": Rp. ");
-            String type = parts[0];
-            double amount = Double.parseDouble(parts[1].split(" - ")[0]);
+    private void saveCurrentState() {
+        previousBalance = balance;
+        previousSpending = spending;
+        previousSavingGoal = savingGoal;
+    }
 
-            switch (type) {
-                case "Income":
-                    balance -= amount;
-                    break;
-                case "Expense":
-                    balance += amount;
-                    spending -= amount;
-                    break;
-                default:
-                    // Handle any unexpected types
-                    break;
-            }
-        }
-
+    private void restorePreviousState() {
+        balance = previousBalance;
+        spending = previousSpending;
+        savingGoal = previousSavingGoal;
         updateLabels();
     }
-
 
     @FXML
     public void SwitchToExit() {
