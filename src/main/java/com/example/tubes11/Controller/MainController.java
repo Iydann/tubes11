@@ -177,18 +177,11 @@ public class MainController {
     @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
 
-    @FXML
-    private ChoiceBox<String> typeGraph;
-
     public void initialize() {
         // Adding options to ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
                 "Income", "Expense"
         ));
-
-        // Adding options to typeGraph ChoiceBox
-        typeGraph.setItems(FXCollections.observableArrayList("Income", "Expense"));
-        typeGraph.setValue("Income"); // Set default value
 
         updateLabels();
 
@@ -197,11 +190,6 @@ public class MainController {
         addButton.setOnAction(event -> addTransaction());
         addsavingbutton.setOnAction(event -> addSavingGoal());
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
-
-        // Add listener to update graph when typeGraph selection changes
-        typeGraph.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            updateFinancialGraph();
-        });
     }
 
 
@@ -319,40 +307,10 @@ public class MainController {
         }
     }
 
-    @FXML
-    private void updateFinancialGraph() {
-        // Mengecek apakah selectedType null atau tidak
-        if (typeGraph.getValue() != null) {
-            calculateTotalPerDay();
-
-            // Menghapus data yang sudah ada pada grafik
-            financialGraph.getData().clear();
-
-            String selectedType = typeGraph.getValue();
-            Map<LocalDate, Double> targetMap = selectedType.equals("Income") ? incomePerDay : expensePerDay;
-
-            // Menambahkan data ke grafik
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            for (LocalDate date : targetMap.keySet()) {
-                double amount = targetMap.get(date);
-                series.getData().add(new XYChart.Data<>(date.toString(), amount));
-            }
-
-            financialGraph.getData().add(series);
-        }
-    }
-
     private void saveCurrentState() {
         previousBalance = balance;
         previousSpending = spending;
         previousSavingGoal = savingGoal;
-    }
-
-    private void restorePreviousState() {
-        balance = previousBalance;
-        spending = previousSpending;
-        savingGoal = previousSavingGoal;
-        updateLabels();
     }
 
     @FXML

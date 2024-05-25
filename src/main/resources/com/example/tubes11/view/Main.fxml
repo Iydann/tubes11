@@ -43,7 +43,7 @@
             </AnchorPane>
          </children>
       </VBox>
-      <AnchorPane fx:id="DashboardPane" layoutX="190.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane fx:id="DashboardPane" layoutX="190.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <VBox layoutX="602.0" layoutY="371.0" prefHeight="439.0" prefWidth="240.0" style="-fx-background-color: #eeeeee; -fx-padding: 20 10 20 10; -fx-spacing: 10; -fx-alignment: center_left;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="605.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="324.0">
                <children>
@@ -104,7 +104,7 @@
          </children>
       </AnchorPane>
       <AnchorPane fx:id="ChartPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-      <AnchorPane fx:id="GraphPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane fx:id="GraphPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <BarChart fx:id="financialGraph" prefHeight="611.0" prefWidth="839.0" AnchorPane.bottomAnchor="92.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
               <xAxis>
@@ -120,7 +120,6 @@
                </font>
             </Text>
             <Button fx:id="setTypeGraph" layoutX="50.0" layoutY="705.0" mnemonicParsing="false" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Set" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" />
-            <ChoiceBox fx:id="typeGraph" layoutX="50.0" layoutY="661.0" onMouseClicked="#initialize" prefHeight="25.0" prefWidth="787.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" AnchorPane.bottomAnchor="67.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="20.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="AlarmPane" layoutX="210.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
