@@ -11,6 +11,9 @@ public class MainController {
     private Label Savinggoal;
 
     @FXML
+    private Label Savinggoal1;
+
+    @FXML
     private Button addButton;
 
     @FXML
@@ -37,6 +40,9 @@ public class MainController {
     @FXML
     private Button showGraphButton;
 
+    @FXML
+    private Button clearAllButton; // New button for clearing selected transactions
+
     private double balance = 0.00;
     private double spending = 0.00;
     private double savingGoal = 0.00;
@@ -53,7 +59,7 @@ public class MainController {
     private ChoiceBox<String> transactionTypeChoiceBox;
 
     public void initialize() {
-        // Menambahkan opsi ke ChoiceBox
+        // Adding options to ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
                 "Income", "Expense"
         ));
@@ -64,12 +70,14 @@ public class MainController {
 
         addButton.setOnAction(event -> addTransaction());
         addsavingbutton.setOnAction(event -> addSavingGoal());
+        clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
     }
 
     private void updateLabels() {
         balanceAmount.setText(String.format("Rp. %.2f", balance));
         spendingAmount.setText(String.format("Rp. %.2f", spending));
         Savinggoal.setText(String.format("Rp. %.2f", savingGoal));
+        Savinggoal1.setText(String.format("Rp. %.2f", balance - savingGoal));
     }
 
     private void addTransaction() {
@@ -127,29 +135,32 @@ public class MainController {
         savingfield.clear();
     }
 
+    private void clearSelectedTransactions() {
+        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
+        transactionList.removeAll(selectedItems);
+        updateLabelsAfterClearing(selectedItems);
+    }
 
-    private void clearTransactions() {
-        transactionList.clear();
-        balance = 0.00;
-        spending = 0.00;
-        savingGoal = 0.00;
+    private void updateLabelsAfterClearing(ObservableList<String> clearedItems) {
+        for (String transaction : clearedItems) {
+            String[] parts = transaction.split(": Rp. ");
+            String type = parts[0];
+            double amount = Double.parseDouble(parts[1].split(" - ")[0]);
+
+            switch (type) {
+                case "Income":
+                    balance -= amount;
+                    break;
+                case "Expense":
+                    balance += amount;
+                    spending -= amount;
+                    break;
+                default:
+                    // Handle any unexpected types
+                    break;
+            }
+        }
+
         updateLabels();
     }
-
-    private void exportTransactions() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Export Transactions");
-        alert.setHeaderText(null);
-        alert.setContentText("Transactions have been exported successfully.");
-        alert.showAndWait();
-    }
-
-    private void importTransactions() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Import Transactions");
-        alert.setHeaderText(null);
-        alert.setContentText("Transactions have been imported successfully.");
-        alert.showAndWait();
-    }
-
 }
