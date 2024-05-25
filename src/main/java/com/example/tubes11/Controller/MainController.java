@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class MainController {
     @FXML
-    private BarChart financialGraph;
+    private LineChart financialGraph;
 
     @FXML
     private AnchorPane DashboardPane;
@@ -230,6 +231,7 @@ public class MainController {
         // Menghitung ulang balance dan spending dari transactionList
         recalculateBalanceAndSpending();
 
+        updateLineChart();
         updateLabels();
 
         amountField.clear();
@@ -246,8 +248,38 @@ public class MainController {
         // Menghitung ulang balance dan spending
         recalculateBalanceAndSpending();
 
+        updateLineChart();
+
         // Memperbarui label
         updateLabels();
+    }
+    private void updateLineChart() {
+        // Bersihkan line chart dari data sebelumnya
+        financialGraph.getData().clear();
+
+        // Buat series baru untuk income dan expense
+        XYChart.Series<String, Double> incomeSeries = new XYChart.Series<>();
+        incomeSeries.setName("Income");
+        XYChart.Series<String, Double> expenseSeries = new XYChart.Series<>();
+        expenseSeries.setName("Expense");
+
+        // Loop melalui transactionList dan tambahkan data ke series yang sesuai
+        for (String transaction : transactionList) {
+            String[] parts = transaction.split(" - ");
+            String dateString = parts[0];
+            String type = parts[1];
+            double amount = Double.parseDouble(parts[2].replace("Rp. ", "").replace(",", "."));
+
+            // Tambahkan data ke series yang sesuai berdasarkan jenis transaksi
+            if (type.equals("Income")) {
+                incomeSeries.getData().add(new XYChart.Data<>(dateString, amount));
+            } else if (type.equals("Expense")) {
+                expenseSeries.getData().add(new XYChart.Data<>(dateString, amount));
+            }
+        }
+
+        // Tambahkan series ke line chart
+        financialGraph.getData().addAll(incomeSeries, expenseSeries);
     }
 
     private void recalculateBalanceAndSpending() {
