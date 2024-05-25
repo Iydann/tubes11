@@ -26,6 +26,15 @@ public class menuController {
     private Label expensesAmount;
 
     @FXML
+    private Label Savinggoal;
+
+    @FXML
+    private TextField savingfield;
+
+    @FXML
+    private Button addsavingbutton;
+
+    @FXML
     private ListView<String> transactionListView;
 
     @FXML
@@ -47,9 +56,9 @@ public class menuController {
     private double spending = 0.00;
     private double income = 0.00;
     private double expenses = 0.00;
+    private double savingGoal = 0.00;
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
-
 
     public void initialize() {
         // Menambahkan opsi ke ChoiceBox
@@ -62,6 +71,7 @@ public class menuController {
         transactionListView.setItems(transactionList);
 
         addButton.setOnAction(event -> addTransaction());
+        addsavingbutton.setOnAction(event -> addSavingGoal());
         showGraphButton.setOnAction(event -> showGraph());
     }
 
@@ -70,8 +80,8 @@ public class menuController {
         spendingAmount.setText(String.format("Rp. %.2f", spending));
         incomeAmount.setText(String.format("+ Rp. %.2f", income));
         expensesAmount.setText(String.format("- Rp. %.2f", expenses));
+        Savinggoal.setText(String.format("Rp. %.2f", savingGoal));
     }
-
 
     private void addTransaction() {
         String type = transactionTypeChoiceBox.getValue();
@@ -112,6 +122,22 @@ public class menuController {
         noteField.clear();
     }
 
+    private void addSavingGoal() {
+        String amountText = savingfield.getText();
+
+        if (amountText.isEmpty() || !amountText.matches("\\d+(\\.\\d{1,2})?")) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Invalid Input");
+            alert.setHeaderText(null);
+            alert.setContentText("Please enter a valid amount.");
+            alert.showAndWait();
+            return;
+        }
+
+        savingGoal = Double.parseDouble(amountText);
+        updateLabels();
+        savingfield.clear();
+    }
 
     private void showGraph() {
         Stage stage = new Stage();
@@ -128,16 +154,15 @@ public class menuController {
         stage.show();
     }
 
-
     private void clearTransactions() {
         transactionList.clear();
         balance = 0.00;
         spending = 0.00;
         income = 0.00;
         expenses = 0.00;
+        savingGoal = 0.00;
         updateLabels();
     }
-
 
     private void exportTransactions() {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -146,7 +171,6 @@ public class menuController {
         alert.setContentText("Transactions have been exported successfully.");
         alert.showAndWait();
     }
-
 
     private void importTransactions() {
         Alert alert = new Alert(AlertType.INFORMATION);

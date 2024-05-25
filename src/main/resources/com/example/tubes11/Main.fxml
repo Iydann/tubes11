@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tubes11.menuController">
+<AnchorPane fx:id="incomeAmount" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tubes11.menuController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2.6em; -fx-font-family: &quot;Calibri&quot;;" text="Welcome, User" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
          <font>
@@ -21,11 +21,6 @@
          </font>
       </Text>
       <Label layoutX="808.0" layoutY="49.0" style="-fx-text-fill: #aaaaaa; -fx-font-size: 1.1em; -fx-font-family: &quot;Calibri Light&quot;;" text="Today. 2022-05-02" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="27.0" />
-      <Text layoutX="24.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="Account Summary" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="90.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
       <Text layoutX="500.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="My Accounts" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
          <font>
             <Font size="18.0" />
@@ -38,6 +33,7 @@
                   <Label fx:id="balanceAmount" layoutX="46.0" layoutY="60.0" prefHeight="55.0" prefWidth="123.0" style="-fx-text-fill: #ffffff; -fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-font-weight: bold;" text="Rp. 0,00" textFill="WHITE" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="60.0" />
                   <VBox layoutX="195.0" layoutY="-20.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0" />
                   <Label layoutX="46.0" layoutY="32.0" style="-fx-text-fill: #ffffff; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 2em; -fx-font-weight: bold;" text="Balance" textFill="WHITE" />
+                  <Label fx:id="Savinggoal1" layoutX="14.0" layoutY="122.0" prefWidth="63.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="Rp. 0,00" textFill="WHITE" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="172.0" layoutY="20.0" prefHeight="150.0" prefWidth="295.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10); -fx-background-color: linear-gradient(to right, #291313, #9e1212)linear-gradient(fr, #4d0c0c, #9e1212);">
@@ -49,13 +45,14 @@
             </AnchorPane>
          </children>
       </HBox>
-      <VBox layoutX="708.0" layoutY="140.0" prefHeight="180.0" prefWidth="210.0" style="-fx-padding: 10; -fx-spacing: 10; -fx-alignment: center_left; -fx-border-radius: 10; -fx-border-color: #999999; -fx-border-width: 1; -fx-border-style: dashed;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+      <VBox layoutX="708.0" layoutY="82.4" prefHeight="219.0" prefWidth="203.0" style="-fx-padding: 10; -fx-spacing: 10; -fx-alignment: center_left; -fx-border-radius: 10; -fx-border-color: #999999; -fx-border-width: 1; -fx-border-style: dashed;" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="82.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Income" />
-            <Label fx:id="incomeAmount" style="-fx-text-fill: #00aa00; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="Rp. 0,00" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Saving Goal" />
+            <Label fx:id="Savinggoal" style="-fx-text-fill: #00aa00; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="Rp. 0,00" />
             <Line endX="160.0" />
             <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses" />
-            <Label fx:id="expensesAmount" style="-fx-text-fill: #aa0000; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="Rp. 0,00" />
+            <TextField fx:id="savingfield" onAction="#initialize" prefHeight="0.0" prefWidth="181.0" style="-fx-pref-height: 20; -fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
+            <Button fx:id="addsavingbutton" mnemonicParsing="false" text="Add" />
          </children>
       </VBox>
       <ListView fx:id="transactionListView" layoutX="42.0" layoutY="343.0" prefHeight="326.0" prefWidth="570.0" style="-fx-background-color: #eeeeee; -fx-border-width: 0 0 0 0; -fx-border-color: #aaaaaa; -fx-border-radius: 2; -fx-border-width: 1;" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="20.0" />
