@@ -1,11 +1,25 @@
 package com.example.tubes11.Controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
 public class MainController {
+
+    @FXML
+    private AnchorPane DashboardPane;
+
+    @FXML
+    private AnchorPane GraphPane;
+
+    @FXML
+    private AnchorPane AlarmPane;
+
+    @FXML
+    private AnchorPane MorePane;
 
     @FXML
     private Label Savinggoal;
@@ -162,5 +176,53 @@ public class MainController {
         }
 
         updateLabels();
+    }
+    @FXML
+    public void handleSwitchToDashboard() {
+        DashboardPane.setVisible(true);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+    }
+
+    @FXML
+    public void handleSwitchToGraph() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(true);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+    }
+
+    @FXML
+    public void handleSwitchToAlarm() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(true);
+        MorePane.setVisible(false);
+    }
+
+    @FXML
+    public void handleSwitchToMore() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(true);
+    }
+
+    @FXML
+    public void SwitchToExit() {
+        // Buat dialog konfirmasi
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Konfirmasi Keluar");
+        alert.setHeaderText(null);
+        alert.setContentText("Apakah Anda yakin ingin keluar dari aplikasi?");
+
+        // Tampilkan dialog dan tunggu respons pengguna
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // Keluar dari aplikasi
+                Platform.exit();
+            }
+        });
     }
 }
