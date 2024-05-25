@@ -1,10 +1,7 @@
-package com.example.tubes11;
+package com.example.tubes11.Controller;
 
-import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,9 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.net.URL;
 
 public class LoginController {
     @FXML
@@ -43,7 +38,8 @@ public class LoginController {
             if (validateLogin(username, password)) {
                 // Jika login berhasil
                 label_login.setText("Login Successful!");
-                delay(this::loadMainScene);
+                loadMainScene();
+//                delay(this::loadMainScene);
                 //uji coba database, tp dimatiin aja soalnya gk work dilaptop lain keknya
                 //validateLoginDB();
             } else {
@@ -121,26 +117,33 @@ public class LoginController {
     }
 
     //untuk mendelay Runnable Action beberapa detik
-    private void delay(Runnable action) {
-        PauseTransition delay = new PauseTransition(Duration.seconds(0.5));
-        delay.setOnFinished(event -> action.run());
-        delay.play();
-    }
+//    private void delay(Runnable action) {
+//        PauseTransition delay = new PauseTransition(Duration.seconds(0.5));
+//        delay.setOnFinished(event -> action.run());
+//        delay.play();
+//    }
 
 
     private void loadMainScene() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+            URL fxmlLocation = getClass().getResource("/com/example/tubes11/view/Dashboard.fxml");
+            if (fxmlLocation == null) {
+                throw new IOException("FXML file not found");
+            }
+            System.out.println("Loading FXML from: " + fxmlLocation);
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            Parent root = loader.load();
             Stage stage = (Stage) label_login.getScene().getWindow();
-            Scene scene = new Scene(root, 850, 750);
-            stage.setTitle("Money Manager - "+txt_username.getText());
-            stage.setResizable(false); // Mengunci Size Windows
+            Scene scene = new Scene(root, 1100, 800);
+            stage.setTitle("Money Manager - " + txt_username.getText());
+            stage.setResizable(true); // Mengunci Size Windows
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+
 
     public boolean validateLogin(String username, String password) {
         // validateLogin ini hanya untuk sementara, karena database belum siap
