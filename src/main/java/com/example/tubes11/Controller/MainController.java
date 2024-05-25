@@ -25,6 +25,9 @@ public class MainController {
     private AnchorPane DashboardPane;
 
     @FXML
+    private AnchorPane ChartPane;
+
+    @FXML
     private AnchorPane GraphPane;
 
     @FXML
@@ -58,6 +61,9 @@ public class MainController {
     private Button buttonDashboard;
 
     @FXML
+    private Button buttonChart;
+
+    @FXML
     private Button buttonGraph;
 
     @FXML
@@ -74,6 +80,7 @@ public class MainController {
         buttonGraph.setStyle(defaultStyle);
         buttonAlarm.setStyle(defaultStyle);
         buttonMore.setStyle(defaultStyle);
+        buttonChart.setStyle(defaultStyle);
     }
 
     @FXML
@@ -82,8 +89,20 @@ public class MainController {
         GraphPane.setVisible(false);
         AlarmPane.setVisible(false);
         MorePane.setVisible(false);
+        ChartPane.setVisible(false);
         resetButtonStyles();
         buttonDashboard.setStyle(activeStyle);
+    }
+
+    @FXML
+    public void handleSwitchToPieChart() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+        ChartPane.setVisible(true);
+        resetButtonStyles();
+        buttonChart.setStyle(activeStyle);
     }
 
     @FXML
@@ -92,6 +111,7 @@ public class MainController {
         GraphPane.setVisible(true);
         AlarmPane.setVisible(false);
         MorePane.setVisible(false);
+        ChartPane.setVisible(false);
         resetButtonStyles();
         buttonGraph.setStyle(activeStyle);
     }
@@ -102,6 +122,7 @@ public class MainController {
         GraphPane.setVisible(false);
         AlarmPane.setVisible(true);
         MorePane.setVisible(false);
+        ChartPane.setVisible(false);
         resetButtonStyles();
         buttonAlarm.setStyle(activeStyle);
     }
@@ -130,9 +151,6 @@ public class MainController {
 
     @FXML
     private TextField savingfield;
-
-    @FXML
-    private Button showGraphButton;
 
     @FXML
     private Button clearAllButton; // New button for clearing selected transactions
