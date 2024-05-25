@@ -19,7 +19,7 @@
                         <Font name="Times New Roman Bold" size="26.0" />
                     </font>
                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
                     </HBox.margin>
                 </Button>
                 <Button lineSpacing="4.0" mnemonicParsing="false" onAction="#handleSwitchToSignup" prefWidth="330.0" text="SignUp">
@@ -27,7 +27,7 @@
                         <Font name="Times New Roman Bold" size="26.0" />
                     </font>
                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="15.0" />
                     </HBox.margin>
                 </Button>
             </HBox>

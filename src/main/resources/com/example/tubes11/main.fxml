@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="850.0" style="-fx-background-color: #eeeeee;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tubes11.menuController">
    <children>
       <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2.6em; -fx-font-family: &quot;Calibri&quot;;" text="Welcome, User" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0">
          <font>
@@ -33,14 +33,14 @@
       </Text>
       <HBox layoutX="29.0" layoutY="119.0" prefHeight="180.0" prefWidth="620.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 10 0 0 10; -fx-padding: 10 0 10 0; -fx-alignment: center; -fx-border-width: 0 1 0 0; -fx-border-color: #DDDDDD; -fx-spacing: 10;" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="120.0">
          <children>
-            <AnchorPane prefHeight="150.0" prefWidth="295.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10); -fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #071e08 0.0%, #178304 100.0%);">
+            <AnchorPane fx:id="balanceLabel" prefHeight="150.0" prefWidth="295.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10); -fx-background-color: linear-gradient(from 0.0% 0.0% to 100.0% 100.0%, #071e08 0.0%, #178304 100.0%);">
                <children>
                   <Label layoutX="46.0" layoutY="60.0" style="-fx-text-fill: #ffffff; -fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-font-weight: bold;" text="Rp. 50.000,00" textFill="WHITE" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="60.0" />
                   <VBox layoutX="195.0" layoutY="-20.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0" />
                   <Label layoutX="110.0" layoutY="32.0" style="-fx-text-fill: #ffffff; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 2em; -fx-font-weight: bold;" text="Balance" textFill="WHITE" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="172.0" layoutY="20.0" prefHeight="150.0" prefWidth="295.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10); -fx-background-color: linear-gradient(to right, #291313, #9e1212)linear-gradient(fr, #4d0c0c, #9e1212);">
+            <AnchorPane fx:id="spendingLabel" layoutX="172.0" layoutY="20.0" prefHeight="150.0" prefWidth="295.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10); -fx-background-color: linear-gradient(to right, #291313, #9e1212)linear-gradient(fr, #4d0c0c, #9e1212);">
                <children>
                   <Label layoutX="46.0" layoutY="60.0" style="-fx-text-fill: #ffffff; -fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-font-weight: bold;" text="Rp. 50.000,00" textFill="WHITE" AnchorPane.leftAnchor="46.0" AnchorPane.topAnchor="60.0" />
                   <VBox layoutX="195.0" layoutY="-20.0" prefHeight="100.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="14.0" />
@@ -58,19 +58,19 @@
             <Label style="-fx-text-fill: #aa0000; -fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.5em;" text="- Rp. 10.000,00" />
          </children>
       </VBox>
-      <ListView layoutX="42.0" layoutY="343.0" prefHeight="326.0" prefWidth="570.0" style="-fx-background-color: #eeeeee; -fx-border-width: 0 0 0 0; -fx-border-color: #aaaaaa; -fx-border-radius: 2; -fx-border-width: 1;" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="20.0" />
+      <ListView fx:id="transactionListView" layoutX="42.0" layoutY="343.0" prefHeight="326.0" prefWidth="570.0" style="-fx-background-color: #eeeeee; -fx-border-width: 0 0 0 0; -fx-border-color: #aaaaaa; -fx-border-radius: 2; -fx-border-width: 1;" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="20.0" />
       <VBox layoutX="602.0" layoutY="371.0" prefHeight="409.0" prefWidth="240.0" style="-fx-background-color: #eeeeee; -fx-padding: 20 10 20 10; -fx-spacing: 10; -fx-alignment: center_left;" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
             <Label style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Transaction Type" />
-            <ChoiceBox prefHeight="25.0" prefWidth="249.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
+            <ChoiceBox fx:id="transactionTypeChoiceBox" onDragDetected="#initialize" onMouseClicked="#initialize" prefHeight="25.0" prefWidth="249.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
             <Label layoutX="10.0" layoutY="10.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Amount In Rp:" />
-            <TextField layoutX="10.0" layoutY="27.0" style="-fx-pref-height: 40; -fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
+            <TextField fx:id="amountField" layoutX="10.0" layoutY="27.0" onAction="#initialize" style="-fx-pref-height: 40; -fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3);" />
             <Label layoutX="10.0" layoutY="52.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Your Note:" />
-            <TextArea prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-background-color: #ffffff;" />
-            <Button mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #132A13, #253F25); -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Add" />
+            <TextArea fx:id="noteField" prefHeight="200.0" prefWidth="200.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-background-color: #ffffff;" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#initialize" style="-fx-background-color: linear-gradient(to right, #132A13, #253F25); -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Add" />
          </children>
       </VBox>
-      <Button layoutX="455.0" layoutY="682.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #132A13, #253F25); -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Show Graph" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="20.0" />
+      <Button fx:id="showGraphButton" layoutX="455.0" layoutY="682.0" mnemonicParsing="false" style="-fx-background-color: linear-gradient(to right, #132A13, #253F25); -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 230; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Show Graph" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="20.0" />
       <Text layoutX="39.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="Latest Transaction" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="320.0" />
       <Text layoutX="745.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.4em;" text="Add Transaction" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="320.0" />
    </children>
