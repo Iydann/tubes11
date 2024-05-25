@@ -14,12 +14,6 @@ import javafx.scene.control.Alert.AlertType;
 public class menuController {
 
     @FXML
-    private AnchorPane balanceLabel;
-
-    @FXML
-    private AnchorPane spendingLabel;
-
-    @FXML
     private Label balanceAmount;
 
     @FXML
@@ -56,7 +50,7 @@ public class menuController {
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
 
-    @FXML
+
     public void initialize() {
         // Menambahkan opsi ke ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
@@ -79,7 +73,7 @@ public class menuController {
         expensesAmount.setText(String.format("- Rp. %.2f", expenses));
     }
 
-    @FXML
+
     private void addTransaction() {
         String type = transactionTypeChoiceBox.getValue();
         String amountText = amountField.getText();
@@ -123,7 +117,7 @@ public class menuController {
         noteField.clear();
     }
 
-    @FXML
+
     private void showGraph() {
         Stage stage = new Stage();
         stage.setTitle("Spending vs Income");
@@ -139,7 +133,7 @@ public class menuController {
         stage.show();
     }
 
-    @FXML
+
     private void clearTransactions() {
         transactionList.clear();
         balance = 50000.00;
@@ -149,7 +143,7 @@ public class menuController {
         updateLabels();
     }
 
-    @FXML
+
     private void exportTransactions() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Export Transactions");
@@ -158,7 +152,7 @@ public class menuController {
         alert.showAndWait();
     }
 
-    @FXML
+
     private void importTransactions() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Import Transactions");
