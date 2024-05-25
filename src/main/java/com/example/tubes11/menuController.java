@@ -43,10 +43,10 @@ public class menuController {
     @FXML
     private Button showGraphButton;
 
-    private double balance = 50000.00;
-    private double spending = 50000.00;
-    private double income = 25000.00;
-    private double expenses = 10000.00;
+    private double balance = 0.00;
+    private double spending = 0.00;
+    private double income = 0.00;
+    private double expenses = 0.00;
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
 
@@ -54,9 +54,8 @@ public class menuController {
     public void initialize() {
         // Menambahkan opsi ke ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
-                "Income", "Expense", "Belanja", "Makanan", "Jalan", "Rumah"
+                "Income", "Expense"
         ));
-        transactionTypeChoiceBox.setValue("Income");
 
         updateLabels();
 
@@ -99,12 +98,8 @@ public class menuController {
                 income += amount;
                 break;
             case "Expense":
-            case "Belanja":
-            case "Makanan":
-            case "Jalan":
-            case "Rumah":
                 balance -= amount;
-                expenses += amount;
+                spending += amount;
                 break;
             default:
                 // Handle any unexpected types
@@ -136,10 +131,10 @@ public class menuController {
 
     private void clearTransactions() {
         transactionList.clear();
-        balance = 50000.00;
-        spending = 50000.00;
-        income = 25000.00;
-        expenses = 10000.00;
+        balance = 0.00;
+        spending = 0.00;
+        income = 0.00;
+        expenses = 0.00;
         updateLabels();
     }
 
