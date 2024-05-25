@@ -1,11 +1,17 @@
 package com.example.tubes11.Controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MainController {
 
@@ -154,6 +160,9 @@ public class MainController {
         addButton.setOnAction(event -> addTransaction());
         addsavingbutton.setOnAction(event -> addSavingGoal());
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
+
+        // Initialize the date label with current date and time
+        initializeDateTime();
     }
 
     private void updateLabels() {
@@ -228,7 +237,7 @@ public class MainController {
         ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
         transactionList.removeAll(selectedItems);
 
-              restorePreviousState();
+        restorePreviousState();
     }
 
     private void saveCurrentState() {
@@ -242,6 +251,15 @@ public class MainController {
         spending = previousSpending;
         savingGoal = previousSavingGoal;
         updateLabels();
+    }
+
+    private void initializeDateTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            dateLabel.setText(LocalDateTime.now().format(formatter));
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     @FXML
