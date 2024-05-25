@@ -1,4 +1,4 @@
-package com.example.tubes11;
+package com.example.tubes11.Controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,8 @@ public class MoneyManagerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        // Use a relative path instead of an absolute path
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tubes11/view/Login.fxml"));
         Scene scene = new Scene(loader.load(), 600, 390);
         primaryStage.setTitle("Money Manager");
         primaryStage.setScene(scene);

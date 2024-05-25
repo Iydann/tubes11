@@ -37,9 +37,6 @@ public class LoginController {
                 // Jika login berhasil
                 label_login.setText("Login Successful!");
                 loadMainScene();
-//                delay(this::loadMainScene);
-                //uji coba database, tp dimatiin aja soalnya gk work dilaptop lain keknya
-                //validateLoginDB();
             } else {
                 label_login.setText("Invalid Username or Password.");
             }
@@ -113,13 +110,6 @@ public class LoginController {
         pane_signup.setVisible(false);
         pane_login.setVisible(true);
     }
-
-    //untuk mendelay Runnable Action beberapa detik
-//    private void delay(Runnable action) {
-//        PauseTransition delay = new PauseTransition(Duration.seconds(0.5));
-//        delay.setOnFinished(event -> action.run());
-//        delay.play();
-//    }
 
 
     private void loadMainScene() {
