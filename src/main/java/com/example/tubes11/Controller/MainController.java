@@ -4,10 +4,22 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController {
+    @FXML
+    private BarChart financialGraph;
 
     @FXML
     private AnchorPane DashboardPane;
@@ -32,6 +44,9 @@ public class MainController {
 
     @FXML
     private Label SpendingAmount;
+
+    @FXML
+    private Button setTypeGraph;
 
     @FXML
     private Button addButton;
@@ -138,14 +153,24 @@ public class MainController {
     @FXML
     private ListView<String> transactionListView;
 
+    private Map<LocalDate, Double> incomePerDay = new HashMap<>();
+    private Map<LocalDate, Double> expensePerDay = new HashMap<>();
+
     @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
+
+    @FXML
+    private ChoiceBox<String> typeGraph;
 
     public void initialize() {
         // Adding options to ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
                 "Income", "Expense"
         ));
+
+        // Adding options to typeGraph ChoiceBox
+        typeGraph.setItems(FXCollections.observableArrayList("Income", "Expense"));
+        typeGraph.setValue("Income"); // Set default value
 
         updateLabels();
 
@@ -154,7 +179,13 @@ public class MainController {
         addButton.setOnAction(event -> addTransaction());
         addsavingbutton.setOnAction(event -> addSavingGoal());
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
+
+        // Add listener to update graph when typeGraph selection changes
+        typeGraph.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            updateFinancialGraph();
+        });
     }
+
 
     private void updateLabels() {
         balanceAmount.setText(String.format("Rp. %.2f", balance));
@@ -165,7 +196,7 @@ public class MainController {
 
     private void addTransaction() {
         String type = transactionTypeChoiceBox.getValue();
-        String amountText = amountField.getText();
+        String amountText = amountField.getText().replace(",", "."); // Mengganti koma dengan titik
         String note = noteField.getText();
 
         if (amountText.isEmpty() || !amountText.matches("\\d+(\\.\\d{1,2})?")) {
@@ -177,32 +208,60 @@ public class MainController {
             return;
         }
 
-        // Save current state before modifying it
+        // Menyimpan keadaan saat ini sebelum memodifikasi
         saveCurrentState();
 
         double amount = Double.parseDouble(amountText);
-        String transaction = String.format("%s: Rp. %.2f - %s", type, amount, note);
+
+        // Mendapatkan tanggal dari label tanggal (dateLabel)
+        String formattedDate = dateLabel.getText();
+
+        // Membuat item transaksi dengan tanggal
+        String transaction = String.format("%s - %s - Rp. %.2f - %s", formattedDate, type, amount, note);
 
         transactionList.add(transaction);
 
-        switch (type) {
-            case "Income":
-                balance += amount;
-                break;
-            case "Expense":
-                balance -= amount;
-                spending += amount;
-                break;
-            default:
-                // Handle any unexpected types
-                break;
-        }
+        // Menghitung ulang balance dan spending dari transactionList
+        recalculateBalanceAndSpending();
 
         updateLabels();
 
         amountField.clear();
         noteField.clear();
     }
+
+    private void clearSelectedTransactions() {
+        // Mendapatkan item yang dipilih dari transactionListView
+        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
+
+        // Menghapus transaksi yang dipilih dari transactionList
+        transactionList.removeAll(selectedItems);
+
+        // Menghitung ulang balance dan spending
+        recalculateBalanceAndSpending();
+
+        // Memperbarui label
+        updateLabels();
+    }
+
+    private void recalculateBalanceAndSpending() {
+        double totalIncome = 0;
+        double totalExpense = 0;
+        for (String trans : transactionList) {
+            String[] parts = trans.split(" - ");
+            // Memparsing jumlah dari string transaksi, menangani simbol mata uang dan koma
+            String amountString = parts[2].replace("Rp. ", "").replace(".", "").replace(",", ".");
+            double transAmount = Double.parseDouble(amountString);
+            if (parts[1].equals("Income")) {
+                totalIncome += transAmount;
+            } else if (parts[1].equals("Expense")) {
+                totalExpense += transAmount;
+            }
+        }
+        balance = totalIncome - totalExpense;
+        spending = totalExpense;
+    }
+
 
     private void addSavingGoal() {
         String amountText = savingfield.getText();
@@ -224,11 +283,45 @@ public class MainController {
         savingfield.clear();
     }
 
-    private void clearSelectedTransactions() {
-        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
-        transactionList.removeAll(selectedItems);
+    private void calculateTotalPerDay() {
+        incomePerDay.clear();
+        expensePerDay.clear();
 
-              restorePreviousState();
+        for (String transaction : transactionList) {
+            String[] parts = transaction.split(":");
+            if (parts.length == 2) {
+                String type = parts[0].trim();
+                String amountStr = parts[1].trim().replace("Rp.", "").replace(",", "");
+                double amount = Double.parseDouble(amountStr);
+
+                LocalDate transactionDate = LocalDate.parse(dateLabel.getText());
+                Map<LocalDate, Double> targetMap = type.equals("Income") ? incomePerDay : expensePerDay;
+                targetMap.put(transactionDate, targetMap.getOrDefault(transactionDate, 0.0) + amount);
+            }
+        }
+    }
+
+    @FXML
+    private void updateFinancialGraph() {
+        // Mengecek apakah selectedType null atau tidak
+        if (typeGraph.getValue() != null) {
+            calculateTotalPerDay();
+
+            // Menghapus data yang sudah ada pada grafik
+            financialGraph.getData().clear();
+
+            String selectedType = typeGraph.getValue();
+            Map<LocalDate, Double> targetMap = selectedType.equals("Income") ? incomePerDay : expensePerDay;
+
+            // Menambahkan data ke grafik
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            for (LocalDate date : targetMap.keySet()) {
+                double amount = targetMap.get(date);
+                series.getData().add(new XYChart.Data<>(date.toString(), amount));
+            }
+
+            financialGraph.getData().add(series);
+        }
     }
 
     private void saveCurrentState() {
@@ -243,6 +336,54 @@ public class MainController {
         savingGoal = previousSavingGoal;
         updateLabels();
     }
+
+    @FXML
+    private void dateChange() {
+        // Buat jendela pengaturan tanggal
+        Stage stage = new Stage();
+        VBox vbox = new VBox();
+
+        Label label = new Label("Pilih tanggal:");
+        DatePicker datePicker = new DatePicker();
+
+        Button button = new Button("OK");
+        button.setOnAction(e -> {
+            if (datePicker.getValue() != null) {
+                // Mendapatkan tanggal dari date picker
+                LocalDate selectedDate = datePicker.getValue();
+
+                // Menampilkan tanggal dalam format yang diinginkan
+                String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("EEEE, yyyy-MM-dd"));
+
+                // Menampilkan tanggal yang dipilih dalam sebuah jendela peringatan
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Tanggal yang Dipilih");
+                alert.setHeaderText(null);
+                alert.setContentText(formattedDate);
+                alert.showAndWait();
+
+                // Update label dateLabel dengan tanggal yang dipilih
+                dateLabel.setText(formattedDate);
+            } else {
+                // Jika tidak ada tanggal yang dipilih, tampilkan pesan kesalahan
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Kesalahan");
+                alert.setHeaderText(null);
+                alert.setContentText("Silakan pilih tanggal.");
+                alert.showAndWait();
+            }
+
+            // Tutup jendela setelah tombol OK ditekan
+            stage.close();
+        });
+
+        vbox.getChildren().addAll(label, datePicker, button);
+
+        Scene scene = new Scene(vbox, 300, 200);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
     @FXML
     public void SwitchToExit() {
