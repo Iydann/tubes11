@@ -7,10 +7,10 @@ public class DatabaseConnection {
     public Connection databaselink;
 
     public Connection getConnection() {
-        String databaseName = "tubes_schema";
-        String databaseUser = "admin";
-        String databasePassword = "admin";
-        String url = "jdbc:mysql://localhost/" + databaseName;
+        String databaseName = "sql12709250";
+        String databaseUser = "sql12709250";
+        String databasePassword = "NZTRwD45Gn";
+        String url = "jdbc:mysql://sql12.freesqldatabase.com/" + databaseName;
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");

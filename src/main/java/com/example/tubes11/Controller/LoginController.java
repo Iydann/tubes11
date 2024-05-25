@@ -1,5 +1,9 @@
 package com.example.tubes11.Controller;
 
+import com.example.tubes11.DatabaseConnection;
+
+import java.sql.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +37,7 @@ public class LoginController {
             label_login.setText("Trying to Login...");
             String username = txt_username.getText();
             String password = txt_password.getText();
-            if (validateLogin(username, password)) {
+            if (validateLoginDB(username, password)) {
                 // Jika login berhasil
                 label_login.setText("Login Successful!");
                 loadMainScene();
@@ -76,6 +80,11 @@ public class LoginController {
             label_signup.setText("Please fill in the Email!");
         } else {
             label_signup.setText("Trying to Sign Up...");
+            if (saveUser(username, password, email)) {
+                label_signup.setText("Sign Up Successful!");
+            } else {
+                label_signup.setText("Sign Up Failed. Try again.");
+            }
         }
     }
     @FXML
@@ -133,39 +142,59 @@ public class LoginController {
     }
 
 
-    public boolean validateLogin(String username, String password) {
-        // validateLogin ini hanya untuk sementara, karena database belum siap
+//    public boolean validateLogin(String username, String password) {
+//        // validateLogin ini hanya untuk sementara, karena database belum siap
+//
+//        // Username dan password yang diharapkan
+//        String expectedUsername = "admin";
+//        String expectedPassword = "admin";
+//
+//        // Memeriksa apakah nilai username dan password sesuai dengan yang diharapkan
+//        return username.equals(expectedUsername) && password.equals(expectedPassword);
+//    }
 
-        // Username dan password yang diharapkan
-        String expectedUsername = "admin";
-        String expectedPassword = "admin";
+    public boolean validateLoginDB(String username, String password) {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
 
-        // Memeriksa apakah nilai username dan password sesuai dengan yang diharapkan
-        return username.equals(expectedUsername) && password.equals(expectedPassword);
+        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = '" + username + "' AND password = '" + password + "'";
+
+        try {
+            Statement statement = connectDB.createStatement();
+            ResultSet queryResult = statement.executeQuery(verifyLogin);
+
+            while (queryResult.next()) {
+                if (queryResult.getInt(1) == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
-//    public void validateLoginDB(TextField txt_username, PasswordField txt_password) {
-//        DatabaseConnection connectNow = new DatabaseConnection();
-//        Connection connectDB = connectNow.getConnection();
-//
-//        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = '" + this.txt_username.getText() + "' AND password = '" + this.txt_password.getText() + "'";
-//
-//        try {
-//            Statement statement = connectDB.createStatement();
-//            ResultSet queryResult = statement.executeQuery(verifyLogin);
-//
-//            while (queryResult.next()) {
-//                if (queryResult.getInt(1) == 1) {
-//                    label_login.setText("Welcome!");
-//                    loadMainScene();
-//                } else {
-//                    label_login.setText("Invalid login, please try again.");
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public boolean saveUser(String username, String password, String email) {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String insertUser = "INSERT INTO UserAccounts (username, password, email) VALUES (?, ?, ?)";
+
+        try {
+            PreparedStatement preparedStatement = connectDB.prepareStatement(insertUser);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.setString(3, email);
+
+            int rowAffected = preparedStatement.executeUpdate();
+            return rowAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
