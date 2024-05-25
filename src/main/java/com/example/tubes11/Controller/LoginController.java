@@ -1,6 +1,5 @@
 package com.example.tubes11.Controller;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +11,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -126,7 +124,7 @@ public class LoginController {
 
     private void loadMainScene() {
         try {
-            URL fxmlLocation = getClass().getResource("/com/example/tubes11/view/Dashboard.fxml");
+            URL fxmlLocation = getClass().getResource("/com/example/tubes11/view/Main.fxml");
             if (fxmlLocation == null) {
                 throw new IOException("FXML file not found");
             }
