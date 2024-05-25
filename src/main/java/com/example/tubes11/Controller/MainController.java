@@ -28,16 +28,81 @@ public class MainController {
     private Label Savinggoal1;
 
     @FXML
+    private Label balanceAmount;
+
+    @FXML
+    private Label SpendingAmount;
+
+    @FXML
     private Button addButton;
 
     @FXML
     private Button addsavingbutton;
 
     @FXML
-    private TextField amountField;
+    private Button buttonDashboard;
 
     @FXML
-    private Label balanceAmount;
+    private Button buttonGraph;
+
+    @FXML
+    private Button buttonAlarm;
+
+    @FXML
+    private Button buttonMore;
+
+    private final String defaultStyle = "-fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
+    private final String activeStyle = "-fx-text-fill: #FFFFFF; -fx-background-color: #212121;-fx-effect: dropshadow(three-pass-box,  #212121, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
+
+    private void resetButtonStyles() {
+        buttonDashboard.setStyle(defaultStyle);
+        buttonGraph.setStyle(defaultStyle);
+        buttonAlarm.setStyle(defaultStyle);
+        buttonMore.setStyle(defaultStyle);
+    }
+
+    @FXML
+    public void handleSwitchToDashboard() {
+        DashboardPane.setVisible(true);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+        resetButtonStyles();
+        buttonDashboard.setStyle(activeStyle);
+    }
+
+    @FXML
+    public void handleSwitchToGraph() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(true);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+        resetButtonStyles();
+        buttonGraph.setStyle(activeStyle);
+    }
+
+    @FXML
+    public void handleSwitchToAlarm() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(true);
+        MorePane.setVisible(false);
+        resetButtonStyles();
+        buttonAlarm.setStyle(activeStyle);
+    }
+
+    @FXML
+    public void handleSwitchToMore() {
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(true);
+        resetButtonStyles();
+        buttonMore.setStyle(activeStyle);
+    }
+
+    @FXML
+    private TextField amountField;
 
     @FXML
     private Label dateLabel;
@@ -60,6 +125,7 @@ public class MainController {
     private double balance = 0.00;
     private double spending = 0.00;
     private double savingGoal = 0.00;
+
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
 
@@ -177,37 +243,7 @@ public class MainController {
 
         updateLabels();
     }
-    @FXML
-    public void handleSwitchToDashboard() {
-        DashboardPane.setVisible(true);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-    }
 
-    @FXML
-    public void handleSwitchToGraph() {
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(true);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-    }
-
-    @FXML
-    public void handleSwitchToAlarm() {
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(true);
-        MorePane.setVisible(false);
-    }
-
-    @FXML
-    public void handleSwitchToMore() {
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(true);
-    }
 
     @FXML
     public void SwitchToExit() {
