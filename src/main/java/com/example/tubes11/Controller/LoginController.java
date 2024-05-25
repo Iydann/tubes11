@@ -163,18 +163,17 @@ public class LoginController {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = '" + username + "' AND password = '" + password + "'";
+        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = ? AND password = ?";
 
         try {
-            Statement statement = connectDB.createStatement();
-            ResultSet queryResult = statement.executeQuery(verifyLogin);
+            PreparedStatement preparedStatement = connectDB.prepareStatement(verifyLogin);
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
 
-            while (queryResult.next()) {
-                if (queryResult.getInt(1) == 1) {
-                    return true;
-                } else {
-                    return false;
-                }
+            ResultSet queryResult = preparedStatement.executeQuery();
+
+            if (queryResult.next() && queryResult.getInt(1) == 1) {
+                return true;
             }
 
         } catch (Exception e) {
