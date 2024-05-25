@@ -12,7 +12,7 @@ public class MoneyManagerApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         // Use a relative path instead of an absolute path
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tubes11/view/Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tubes11/view/login.fxml"));
         Scene scene = new Scene(loader.load(), 600, 390);
         primaryStage.setTitle("Money Manager");
         primaryStage.setScene(scene);

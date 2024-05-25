@@ -38,6 +38,9 @@ public class MainController {
     private AnchorPane MorePane;
 
     @FXML
+    private Label welcomeLabel;
+    
+    @FXML
     private Label Savinggoal;
 
     @FXML
@@ -48,9 +51,6 @@ public class MainController {
 
     @FXML
     private Label SpendingAmount;
-
-    @FXML
-    private Button setTypeGraph;
 
     @FXML
     private Button addButton;
@@ -75,6 +75,7 @@ public class MainController {
 
     private final String defaultStyle = "-fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
     private final String activeStyle = "-fx-text-fill: #FFFFFF; -fx-background-color: #212121;-fx-effect: dropshadow(three-pass-box,  #212121, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
+    private String username;
 
     private void resetButtonStyles() {
         buttonDashboard.setStyle(defaultStyle);
@@ -409,4 +410,10 @@ public class MainController {
             }
         });
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+        welcomeLabel.setText("Welcome, " + username);
+    }
+
 }

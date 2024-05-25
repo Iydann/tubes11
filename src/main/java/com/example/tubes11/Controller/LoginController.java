@@ -130,6 +130,12 @@ public class LoginController {
             System.out.println("Loading FXML from: " + fxmlLocation);
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
+
+            // Dapatkan controller dari FXMLLoader
+            MainController mainController = loader.getController();
+            // Set username pada MainController
+            mainController.setUsername(txt_username.getText());
+
             Stage stage = (Stage) label_login.getScene().getWindow();
             Scene scene = new Scene(root, 1100, 800);
             stage.setTitle("Money Manager - " + txt_username.getText());
