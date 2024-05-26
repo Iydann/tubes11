@@ -3,6 +3,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -33,7 +34,7 @@
                         <Button fx:id="buttonChart" layoutX="20.0" layoutY="30.0" mnemonicParsing="false" onAction="#handleSwitchToPieChart" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #ffffff;" text="Pie Chart" />
                         <Button fx:id="buttonGraph" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleSwitchToGraph" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40;" text="Graph" />
                         <Button fx:id="buttonAlarm" layoutX="20.0" layoutY="120.0" mnemonicParsing="false" onAction="#handleSwitchToAlarm" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #ffffff;" text="Alarm" />
-                        <Button fx:id="buttonMore" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleSwitchToMore" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #ffffff;" text="Fitur lagi" />
+                        <Button fx:id="buttonMore" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleSwitchToMore" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #ffffff;" text="Profile" />
                         <Line endX="49.5" startX="-100.0" />
                         <Button layoutX="20.0" layoutY="267.0" mnemonicParsing="false" onAction="#SwitchToExit" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #ff5959, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #9e1212; -fx-text-fill: #ffffff;" text="Exit / Log Out" textFill="WHITE" />
                         <Button layoutX="20.0" layoutY="267.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #73ff48, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #178304; -fx-text-fill: #ffffff;" text="Administrator" />
@@ -99,7 +100,10 @@
             <Label fx:id="welcomeLabel" layoutX="20.0" layoutY="24.0" style="-fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10);" text="Welcome, User" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="30.0" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="ChartPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <AnchorPane fx:id="ChartPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <PieChart fx:id="financialChart" layoutX="206.0" layoutY="141.0" prefHeight="439.0" prefWidth="469.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+         </children></AnchorPane>
       <AnchorPane fx:id="GraphPane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 2.6em; -fx-font-family: &quot;Calibri&quot;;" text="Financial graph" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="20.0">
@@ -108,12 +112,12 @@
                </font>
             </Text>
             <LineChart fx:id="financialGraph" layoutX="8.0" layoutY="51.0" prefHeight="642.0" prefWidth="839.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="51.0">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis side="LEFT" />
+               </yAxis>
             </LineChart>
          </children>
       </AnchorPane>
