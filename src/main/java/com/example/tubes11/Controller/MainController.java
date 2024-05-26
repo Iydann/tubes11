@@ -1,5 +1,6 @@
 package com.example.tubes11.Controller;
 
+import com.example.tubes11.DatabaseConnection;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.sql.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -105,6 +108,7 @@ public class MainController {
     private final String defaultStyle = "-fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
     private final String activeStyle = "-fx-text-fill: #FFFFFF; -fx-background-color: #212121;-fx-effect: dropshadow(three-pass-box,  #212121, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
     private String username;
+    private int userId;
 
     private void resetButtonStyles() {
         buttonDashboard.setStyle(defaultStyle);
@@ -239,7 +243,7 @@ public class MainController {
 
         transactionListView.setItems(transactionList);
 
-        addButton.setOnAction(event -> addTransaction());
+        addButton.setOnAction(event -> addTransaction(userId));
         addsavingbutton.setOnAction(event -> addSavingGoal());
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
 
@@ -293,7 +297,7 @@ public class MainController {
         updatePieChart();
     }
 
-    private void addTransaction() {
+    private void addTransaction(int userId) {
         String type = transactionTypeChoiceBox.getValue();
         String amountText = amountField.getText().replace(",", "."); // Mengganti koma dengan titik
         String note = noteField.getText();
@@ -319,6 +323,24 @@ public class MainController {
         String transaction = String.format("%s - %s - Rp. %.2f - %s", formattedDate, type, amount, note);
 
         transactionList.add(transaction);
+
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        Connection connection = dbConnection.getConnection();
+
+        String insertTransaction = "INSERT INTO Transactions (user_id, type, amount, description, date) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertTransaction);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, type);
+            preparedStatement.setDouble(3, amount);
+            preparedStatement.setString(4, note);
+            preparedStatement.setString(5, formattedDate);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         // Menghitung ulang balance dan spending dari transactionList
         recalculateBalanceAndSpending();
@@ -511,8 +533,9 @@ public class MainController {
         });
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username, int userId) {
         this.username = username;
+        this.userId = userId;
         welcomeLabel.setText("Welcome, " + username);
     }
 

@@ -37,10 +37,13 @@ public class LoginController {
             label_login.setText("Trying to Login...");
             String username = txt_username.getText();
             String password = txt_password.getText();
-            if (validateLoginDB(username, password)) {
+
+            int valid = validateLoginDB(username, password);
+
+            if (valid != 0) {
                 // Jika login berhasil
                 label_login.setText("Login Successful!");
-                loadMainScene();
+                loadMainScene(username, valid);
             } else {
                 label_login.setText("Invalid Username or Password.");
             }
@@ -127,7 +130,7 @@ public class LoginController {
     }
 
 
-    private void loadMainScene() {
+    private void loadMainScene(String username, int userId) {
         try {
             URL fxmlLocation = getClass().getResource("/com/example/tubes11/view/Main.fxml");
             if (fxmlLocation == null) {
@@ -140,7 +143,7 @@ public class LoginController {
             // Dapatkan controller dari FXMLLoader
             MainController mainController = loader.getController();
             // Set username pada MainController
-            mainController.setUsername(txt_username.getText());
+            mainController.setUsername(username, userId);
 
             Stage stage = (Stage) label_login.getScene().getWindow();
             Scene scene = new Scene(root, 1400, 900);
@@ -165,11 +168,11 @@ public class LoginController {
 //        return username.equals(expectedUsername) && password.equals(expectedPassword);
 //    }
 
-    public boolean validateLoginDB(String username, String password) {
+    public int validateLoginDB(String username, String password) {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String verifyLogin = "SELECT count(1) FROM UserAccounts WHERE username = ? AND password = ?";
+        String verifyLogin = "SELECT id FROM UserAccounts WHERE username = ? AND password = ?";
 
         try {
             PreparedStatement preparedStatement = connectDB.prepareStatement(verifyLogin);
@@ -178,14 +181,16 @@ public class LoginController {
 
             ResultSet queryResult = preparedStatement.executeQuery();
 
-            if (queryResult.next() && queryResult.getInt(1) == 1) {
-                return true;
+            if (queryResult.next()) {
+                return queryResult.getInt("id");
+            } else {
+                return -1;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     public boolean isEmailTaken(String email) {
