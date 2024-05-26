@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javafx.scene.input.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -42,6 +43,36 @@ public class MainController {
     private AnchorPane MorePane;
 
     @FXML
+    private AnchorPane HomePane;
+
+    @FXML
+    private Label currentDateLabel;
+
+    @FXML
+    private Label currentTimeLabel;
+
+    @FXML
+    private Button deleteAlarmListButton;
+
+    @FXML
+    private ListView alarmListView;
+
+    @FXML
+    private Button setAlarmButton;
+
+    @FXML
+    private Button startStopwatchButton;
+
+    @FXML
+    private Button startTimerButton;
+
+    @FXML
+    private ChoiceBox<?> timerChoiceBox;
+
+    @FXML
+    private TextArea alarmTimeNoteField;
+
+    @FXML
     private Label welcomeLabel;
 
     @FXML
@@ -61,6 +92,9 @@ public class MainController {
 
     @FXML
     private Button addsavingbutton;
+
+    @FXML
+    private Button buttonHome;
 
     @FXML
     private Button buttonDashboard;
@@ -87,10 +121,24 @@ public class MainController {
         buttonAlarm.setStyle(defaultStyle);
         buttonMore.setStyle(defaultStyle);
         buttonChart.setStyle(defaultStyle);
+        buttonHome.setStyle(defaultStyle);
+    }
+
+    @FXML
+    public void handleSwitchToHome() {
+        HomePane.setVisible(true);
+        DashboardPane.setVisible(false);
+        GraphPane.setVisible(false);
+        AlarmPane.setVisible(false);
+        MorePane.setVisible(false);
+        ChartPane.setVisible(false);
+        resetButtonStyles();
+        buttonHome.setStyle(activeStyle);
     }
 
     @FXML
     public void handleSwitchToDashboard() {
+        HomePane.setVisible(false);
         DashboardPane.setVisible(true);
         GraphPane.setVisible(false);
         AlarmPane.setVisible(false);
@@ -102,6 +150,7 @@ public class MainController {
 
     @FXML
     public void handleSwitchToPieChart() {
+        HomePane.setVisible(false);
         DashboardPane.setVisible(false);
         GraphPane.setVisible(false);
         AlarmPane.setVisible(false);
@@ -113,6 +162,7 @@ public class MainController {
 
     @FXML
     public void handleSwitchToGraph() {
+        HomePane.setVisible(false);
         DashboardPane.setVisible(false);
         GraphPane.setVisible(true);
         AlarmPane.setVisible(false);
@@ -124,6 +174,7 @@ public class MainController {
 
     @FXML
     public void handleSwitchToAlarm() {
+        HomePane.setVisible(false);
         DashboardPane.setVisible(false);
         GraphPane.setVisible(false);
         AlarmPane.setVisible(true);
@@ -135,10 +186,12 @@ public class MainController {
 
     @FXML
     public void handleSwitchToMore() {
+        HomePane.setVisible(false);
         DashboardPane.setVisible(false);
         GraphPane.setVisible(false);
         AlarmPane.setVisible(false);
         MorePane.setVisible(true);
+        ChartPane.setVisible(false);
         resetButtonStyles();
         buttonMore.setStyle(activeStyle);
     }
@@ -181,6 +234,9 @@ public class MainController {
 
     private Map<LocalDate, Double> incomePerDay = new HashMap<>();
     private Map<LocalDate, Double> expensePerDay = new HashMap<>();
+
+    @FXML
+    private ChoiceBox<?> alarmTimeChoiceBox;
 
     @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
@@ -414,6 +470,14 @@ public class MainController {
         stage.show();
     }
 
+    @FXML
+    private void alarmTimeSelect(MouseEvent event) {
+        System.out.println("alarmTimeSelect called!");
+    }
+    @FXML
+    private void timerTimeSelect(MouseEvent event) {
+        System.out.println("timerTimeSelect called!");
+    }
 
     @FXML
     public void SwitchToExit() {
