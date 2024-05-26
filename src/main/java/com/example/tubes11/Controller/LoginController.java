@@ -79,12 +79,7 @@ public class LoginController {
         } else if (email.isBlank()) {
             label_signup.setText("Please fill in the Email!");
         } else {
-            label_signup.setText("Trying to Sign Up...");
-            if (saveUser(username, password, email)) {
-                label_signup.setText("Sign Up Successful!");
-            } else {
-                label_signup.setText("Sign Up Failed. Try again.");
-            }
+
         }
     }
     @FXML
@@ -177,6 +172,48 @@ public class LoginController {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isEmailTaken(String email) {
+        DatabaseConnection connecNow = new DatabaseConnection();
+        Connection connectDB = connecNow.getConnection();
+
+        String checkEmail = "SELECT count(1) FROM UserAccounts WHERE email = ?";
+
+        try {
+            PreparedStatement preparedStatement = connectDB.prepareStatement(checkEmail);
+            preparedStatement.setString(1, email);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next() && resultSet.getInt(1) == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isUsernameTaken(String username) {
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String checkUsername = "SELECT count(1) FROM UserAccounts WHERE username = ?";
+
+        try {
+            PreparedStatement preparedStatement = connectDB.prepareStatement(checkUsername);
+            preparedStatement.setString(1, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next() && resultSet.getInt(1) == 1) {
+                return true;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
