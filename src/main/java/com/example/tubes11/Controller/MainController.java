@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +22,9 @@ import java.util.Map;
 public class MainController {
     @FXML
     private LineChart financialGraph;
+
+    @FXML
+    private PieChart financialChart;
 
     @FXML
     private AnchorPane DashboardPane;
@@ -39,7 +43,7 @@ public class MainController {
 
     @FXML
     private Label welcomeLabel;
-    
+
     @FXML
     private Label Savinggoal;
 
@@ -160,6 +164,8 @@ public class MainController {
     private double balance = 0.00;
     private double spending = 0.00;
     private double savingGoal = 0.00;
+    private double totalIncome = 0.00; // New variable for total income
+    private double totalExpense = 0.00; // New variable for total expense
 
     private double previousBalance = 0.00;
     private double previousSpending = 0.00;
@@ -192,6 +198,9 @@ public class MainController {
         addButton.setOnAction(event -> addTransaction());
         addsavingbutton.setOnAction(event -> addSavingGoal());
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
+
+        recalculateBalanceAndSpending();
+        updatePieChart();
     }
 
 
@@ -200,6 +209,7 @@ public class MainController {
         spendingAmount.setText(String.format("Rp. %.2f", spending));
         Savinggoal.setText(String.format("Rp. %.2f", savingGoal));
         Savinggoal1.setText(String.format("Rp. %.2f", balance - savingGoal));
+        updatePieChart();
     }
 
     private void addTransaction() {
@@ -231,6 +241,7 @@ public class MainController {
 
         // Menghitung ulang balance dan spending dari transactionList
         recalculateBalanceAndSpending();
+        updatePieChart();
 
         updateLineChart();
         updateLabels();
@@ -253,6 +264,16 @@ public class MainController {
 
         // Memperbarui label
         updateLabels();
+    }
+
+    private void updatePieChart() {
+        if (financialChart != null) {
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+                    new PieChart.Data("Income", totalIncome),
+                    new PieChart.Data("Expense", totalExpense)
+            );
+            financialChart.setData(pieChartData);
+        }
     }
     private void updateLineChart() {
         // Bersihkan line chart dari data sebelumnya
@@ -288,9 +309,7 @@ public class MainController {
         double totalExpense = 0;
         for (String trans : transactionList) {
             String[] parts = trans.split(" - ");
-            // Memparsing jumlah dari string transaksi, menangani simbol mata uang dan koma
-            String amountString = parts[2].replace("Rp. ", "").replace(".", "").replace(",", ".");
-            double transAmount = Double.parseDouble(amountString);
+            double transAmount = Double.parseDouble(parts[2].replace("Rp. ", "").replace(".", "").replace(",", "."));
             if (parts[1].equals("Income")) {
                 totalIncome += transAmount;
             } else if (parts[1].equals("Expense")) {
@@ -299,6 +318,8 @@ public class MainController {
         }
         balance = totalIncome - totalExpense;
         spending = totalExpense;
+        this.totalIncome = totalIncome;
+        this.totalExpense = totalExpense;
     }
 
 
