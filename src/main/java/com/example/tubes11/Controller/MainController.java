@@ -1,5 +1,8 @@
 package com.example.tubes11.Controller;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,12 +18,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javafx.scene.input.MouseEvent;
+import javafx.util.Duration;
+
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainController {
+    @FXML
+    private TextArea textAreaMyNote;
+
     @FXML
     private LineChart financialGraph;
 
@@ -50,27 +59,6 @@ public class MainController {
 
     @FXML
     private Label currentTimeLabel;
-
-    @FXML
-    private Button deleteAlarmListButton;
-
-    @FXML
-    private ListView alarmListView;
-
-    @FXML
-    private Button setAlarmButton;
-
-    @FXML
-    private Button startStopwatchButton;
-
-    @FXML
-    private Button startTimerButton;
-
-    @FXML
-    private ChoiceBox<?> timerChoiceBox;
-
-    @FXML
-    private TextArea alarmTimeNoteField;
 
     @FXML
     private Label welcomeLabel;
@@ -239,9 +227,6 @@ public class MainController {
     private Map<LocalDate, Double> expensePerDay = new HashMap<>();
 
     @FXML
-    private ChoiceBox<?> alarmTimeChoiceBox;
-
-    @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
 
     public void initialize() {
@@ -260,6 +245,42 @@ public class MainController {
 
         recalculateBalanceAndSpending();
         updatePieChart();
+
+
+        // Inisialisasi Timeline untuk memperbarui waktu secara real-time
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            // Ambil waktu saat ini
+            LocalTime currentTime = LocalTime.now();
+
+            // Format waktu sesuai kebutuhan
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formattedTime = currentTime.format(timeFormatter);
+
+            // Update label waktu
+            currentTimeLabel.setText(formattedTime);
+        }), new KeyFrame(Duration.seconds(1))); // Perbarui setiap 1 detik
+
+        // Memulai timeline
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+
+
+        // Inisialisasi Timeline untuk memperbarui tanggal secara real-time
+        Timeline dateUpdater = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            // Ambil tanggal saat ini
+            LocalDate currentDate = LocalDate.now();
+
+            // Format tanggal sesuai kebutuhan
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("EEEE, yyyy-MM-dd");
+            String formattedDate = currentDate.format(dateFormatter);
+
+            // Update label tanggal
+            currentDateLabel.setText(formattedDate);
+        }), new KeyFrame(Duration.hours(1))); // Perbarui setiap 1 jam (karena tanggal jarang berubah)
+
+// Memulai timeline
+        dateUpdater.setCycleCount(Animation.INDEFINITE);
+        dateUpdater.play();
     }
 
 
@@ -471,15 +492,6 @@ public class MainController {
         Scene scene = new Scene(vbox, 300, 200);
         stage.setScene(scene);
         stage.show();
-    }
-
-    @FXML
-    private void alarmTimeSelect(MouseEvent event) {
-        System.out.println("alarmTimeSelect called!");
-    }
-    @FXML
-    private void timerTimeSelect(MouseEvent event) {
-        System.out.println("timerTimeSelect called!");
     }
 
     @FXML
