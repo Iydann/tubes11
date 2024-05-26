@@ -143,7 +143,7 @@ public class LoginController {
             mainController.setUsername(txt_username.getText());
 
             Stage stage = (Stage) label_login.getScene().getWindow();
-            Scene scene = new Scene(root, 1100, 800);
+            Scene scene = new Scene(root, 1400, 900);
             stage.setTitle("Money Manager - " + txt_username.getText());
             stage.setResizable(true); // Mengunci Size Windows
             stage.setScene(scene);

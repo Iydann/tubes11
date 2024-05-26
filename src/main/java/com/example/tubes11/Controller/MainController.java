@@ -85,6 +85,9 @@ public class MainController {
     private Label balanceAmount;
 
     @FXML
+    private Label incomeAmount;
+
+    @FXML
     private Label SpendingAmount;
 
     @FXML
@@ -263,6 +266,7 @@ public class MainController {
     private void updateLabels() {
         balanceAmount.setText(String.format("Rp. %.2f", balance));
         spendingAmount.setText(String.format("Rp. %.2f", spending));
+        incomeAmount.setText(String.format("Rp. %.2f", totalIncome)); // Update label incomeAmount
         Savinggoal.setText(String.format("Rp. %.2f", savingGoal));
         Savinggoal1.setText(String.format("Rp. %.2f", balance - savingGoal));
         updatePieChart();
@@ -377,7 +381,6 @@ public class MainController {
         this.totalIncome = totalIncome;
         this.totalExpense = totalExpense;
     }
-
 
     private void addSavingGoal() {
         String amountText = savingfield.getText();

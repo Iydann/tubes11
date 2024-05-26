@@ -32,8 +32,7 @@
                 </Button>
             </HBox>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="318.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
-            <AnchorPane fx:id="pane_login" prefHeight="324.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                <Button fx:id="btn_login" layoutX="252.0" layoutY="261.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="38.0" prefWidth="96.0" style="-fx-background-color: #76ff33;" text="Login" />
+            <AnchorPane fx:id="pane_login" prefHeight="324.0" prefWidth="600.0" AnchorPane.bottomAnchor="76.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                 <Label layoutX="256.0" layoutY="14.0" prefHeight="38.0" prefWidth="87.0" text="Login" textAlignment="CENTER" textFill="#fffbfb">
                     <font>
                         <Font name="Times New Roman Bold" size="33.0" />
@@ -42,13 +41,14 @@
                 <AnchorPane layoutX="38.0" layoutY="66.0" prefHeight="10.0" prefWidth="523.0" style="-fx-background-color: #76ff63;" />
                 <TextField fx:id="txt_username" layoutX="191.0" layoutY="102.0" prefHeight="38.0" prefWidth="219.0" promptText="Username" />
                 <PasswordField fx:id="txt_password" layoutX="190.0" layoutY="162.0" prefHeight="38.0" prefWidth="219.0" promptText="Password" />
+                <Button fx:id="btn_login" layoutX="252.0" layoutY="261.0" mnemonicParsing="false" onAction="#loginButtonAction" prefHeight="38.0" prefWidth="96.0" style="-fx-background-color: #76ff33;" text="Login" />
                 <Label fx:id="label_login" alignment="CENTER" layoutX="38.0" layoutY="215.0" prefHeight="26.0" prefWidth="523.0" textFill="RED">
                     <font>
                         <Font size="15.0" />
                     </font>
                 </Label>
             </AnchorPane>
-            <AnchorPane fx:id="pane_signup" prefHeight="318.0" prefWidth="600.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="pane_signup" prefHeight="318.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <Label layoutX="246.0" layoutY="14.0" prefHeight="38.0" prefWidth="106.0" text="SignUp" textAlignment="CENTER" textFill="#fffbfb">
                     <font>
                         <Font name="Times New Roman Bold" size="33.0" />
@@ -67,7 +67,7 @@
             </AnchorPane>
             <AnchorPane fx:id="pane_start" prefHeight="318.0" prefWidth="600.0">
                 <children>
-                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="331.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
+                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#404040" height="324.0" stroke="BLACK" strokeType="INSIDE" width="600.0" />
                     <Label layoutX="154.0" layoutY="80.0" prefHeight="47.0" prefWidth="292.0" text="Money Manager" textAlignment="CENTER" textFill="WHITE">
                         <font>
                             <Font name="Times New Roman Bold" size="41.0" />
