@@ -44,7 +44,7 @@
             </AnchorPane>
          </children>
       </VBox>
-      <AnchorPane fx:id="DashboardPane" layoutX="190.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <AnchorPane fx:id="DashboardPane" layoutX="190.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <VBox layoutX="590.0" layoutY="371.0" prefHeight="439.0" prefWidth="255.0" style="-fx-background-color: #eeeeee; -fx-padding: 20 10 20 10; -fx-spacing: 10; -fx-alignment: center_left;" AnchorPane.bottomAnchor="-10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="324.0">
                <children>
@@ -121,7 +121,34 @@
             </LineChart>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="AlarmPane" layoutX="210.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <AnchorPane fx:id="AlarmPane" layoutX="210.0" layoutY="32.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <VBox layoutX="14.0" layoutY="14.0" prefHeight="408.0" prefWidth="332.0" style="-fx-background-color: #eeeeee; -fx-padding: 20 10 20 10; -fx-spacing: 10; -fx-alignment: center_left;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 3em;" text="Set Alarm" />
+                  <Label style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Alarm Time" />
+                  <ChoiceBox fx:id="alarmTimeChoiceBox" onMouseClicked="#alarmTimeSelect" prefHeight="30.0" prefWidth="636.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-height: 40; -fx-pref-width: 1000;" />
+                  <Label layoutX="10.0" layoutY="52.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Your Note:" />
+                  <TextArea fx:id="alarmTimeNoteField" prefHeight="307.0" prefWidth="312.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-background-color: #ffffff;" />
+                  <Button fx:id="setAlarmButton" mnemonicParsing="false" onAction="#initialize" prefHeight="34.0" prefWidth="688.0" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 1000; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Set" />
+                  <Text layoutX="20.0" layoutY="209.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 3em;" text="Timer" />
+                  <ChoiceBox fx:id="timerChoiceBox" layoutX="20.0" layoutY="109.0" onMouseClicked="#timerTimeSelect" prefHeight="30.0" prefWidth="636.0" style="-fx-background-color: #ffffff; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-height: 40; -fx-pref-width: 1000;" />
+                  <Button fx:id="startTimerButton" layoutX="20.0" layoutY="510.0" mnemonicParsing="false" onAction="#initialize" prefHeight="34.0" prefWidth="688.0" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 1000; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Start" />
+                  <Text layoutX="20.0" layoutY="564.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 3em;" text="Stopwatch" />
+                  <Button fx:id="startStopwatchButton" layoutX="20.0" layoutY="558.0" mnemonicParsing="false" onAction="#initialize" prefHeight="34.0" prefWidth="688.0" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 1000; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Start" />
+               </children>
+            </VBox>
+            <VBox layoutX="14.0" layoutY="10.0" prefHeight="717.0" prefWidth="472.0" style="-fx-background-color: #eeeeee; -fx-padding: 20 10 20 10; -fx-spacing: 10; -fx-alignment: center_left;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 3em;" text="Current Time" />
+                  <Label fx:id="currentDateLabel" style="-fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10);" text="Thurday, 13 May 2024" />
+                  <Label fx:id="currentTimeLabel" style="-fx-font-family: &quot;Calibri&quot;; -fx-font-size: 3em; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 10, 0, 0, 10);" text="13:59:33" />
+                  <Label style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 1.3em;" text="Alarm List" />
+                  <ListView fx:id="alarmListView" prefHeight="494.0" prefWidth="452.0" style="-fx-background-color: #eeeeee; -fx-border-width: 0 0 0 0; -fx-border-color: #aaaaaa; -fx-border-radius: 2; -fx-border-width: 1;" />
+                  <Button fx:id="deleteAlarmListButton" mnemonicParsing="false" onAction="#initialize" prefHeight="34.0" prefWidth="688.0" style="-fx-background-color: #404040; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 1000; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-text-fill: #FFFFFF;" text="Delete" />
+               </children>
+            </VBox>
+         </children></AnchorPane>
       <AnchorPane fx:id="MorePane" layoutX="210.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="898.0" style="-fx-background-color: #eeeeee; -fx-background-radius: 20 20 0 0;" visible="false" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
    </children>
 </AnchorPane>

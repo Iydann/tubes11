@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javafx.scene.input.MouseEvent;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -40,6 +41,33 @@ public class MainController {
 
     @FXML
     private AnchorPane MorePane;
+
+    @FXML
+    private Label currentDateLabel;
+
+    @FXML
+    private Label currentTimeLabel;
+
+    @FXML
+    private Button deleteAlarmListButton;
+
+    @FXML
+    private ListView alarmListView;
+
+    @FXML
+    private Button setAlarmButton;
+
+    @FXML
+    private Button startStopwatchButton;
+
+    @FXML
+    private Button startTimerButton;
+
+    @FXML
+    private ChoiceBox<?> timerChoiceBox;
+
+    @FXML
+    private TextArea alarmTimeNoteField;
 
     @FXML
     private Label welcomeLabel;
@@ -181,6 +209,9 @@ public class MainController {
 
     private Map<LocalDate, Double> incomePerDay = new HashMap<>();
     private Map<LocalDate, Double> expensePerDay = new HashMap<>();
+
+    @FXML
+    private ChoiceBox<?> alarmTimeChoiceBox;
 
     @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
@@ -414,6 +445,14 @@ public class MainController {
         stage.show();
     }
 
+    @FXML
+    private void alarmTimeSelect(MouseEvent event) {
+        System.out.println("alarmTimeSelect called!");
+    }
+    @FXML
+    private void timerTimeSelect(MouseEvent event) {
+        System.out.println("timerTimeSelect called!");
+    }
 
     @FXML
     public void SwitchToExit() {
