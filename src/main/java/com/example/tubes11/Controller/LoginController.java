@@ -117,14 +117,12 @@ public class LoginController {
 
     @FXML
     public void handleSwitchToSignup() {
-        pane_start.setVisible(false);
         pane_login.setVisible(false);
         pane_signup.setVisible(true);
     }
 
     @FXML
     public void handleSwitchToLogin() {
-        pane_start.setVisible(false);
         pane_signup.setVisible(false);
         pane_login.setVisible(true);
     }
@@ -148,7 +146,7 @@ public class LoginController {
             Stage stage = (Stage) label_login.getScene().getWindow();
             Scene scene = new Scene(root, 1400, 900);
             stage.setTitle("Money Manager - " + txt_username.getText());
-            stage.setResizable(true); // Mengunci Size Windows
+            stage.setResizable(true); // False utk Mengunci Size Windows
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {

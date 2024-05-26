@@ -38,7 +38,6 @@
                         <Button fx:id="buttonMore" layoutX="20.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleSwitchToMore" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #ffffff;" text="Update Log" />
                         <Line endX="49.5" startX="-100.0" />
                         <Button layoutX="20.0" layoutY="267.0" mnemonicParsing="false" onAction="#SwitchToExit" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #ff5959, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #9e1212; -fx-text-fill: #ffffff;" text="Exit / Log Out" textFill="WHITE" />
-                        <Button layoutX="20.0" layoutY="267.0" mnemonicParsing="false" prefWidth="130.0" style="-fx-effect: dropshadow(three-pass-box, #73ff48, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: &quot;Calibri Light&quot;; -fx-pref-height: 40; -fx-background-color: #178304; -fx-text-fill: #ffffff;" text="Administrator" />
                      </children>
                   </VBox>
                </children>
