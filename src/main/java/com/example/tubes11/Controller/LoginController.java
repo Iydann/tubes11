@@ -79,7 +79,18 @@ public class LoginController {
         } else if (email.isBlank()) {
             label_signup.setText("Please fill in the Email!");
         } else {
-
+            if (isUsernameTaken(username)) {
+                label_signup.setText("Username already taken. Choose another one.");
+            } else if (isEmailTaken(email)) {
+                label_signup.setText("Email already taken. Use another email.");
+            } else {
+                label_signup.setText("Trying to Sign Up...");
+                if (saveUser(username, password, email)) {
+                    label_signup.setText("Sign Up Successful!");
+                } else {
+                    label_signup.setText("Sign Up Failed. Try Again.");
+                }
+            }
         }
     }
     @FXML
