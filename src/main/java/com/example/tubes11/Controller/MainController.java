@@ -246,7 +246,7 @@ public class MainController {
 
         addButton.setOnAction(event -> addTransaction(userId));
         addsavingbutton.setOnAction(event -> addSavingGoal(userId));
-        clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
+        clearAllButton.setOnAction(event -> clearSelectedTransactions(userId)); // Event handler for clearAllButton
 
         recalculateBalanceAndSpending();
         updatePieChart();
@@ -353,20 +353,66 @@ public class MainController {
         noteField.clear();
     }
 
-    private void clearSelectedTransactions() {
+    private void clearSelectedTransactions(int userId) {
         // Mendapatkan item yang dipilih dari transactionListView
-        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
+//        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
 
-        // Menghapus transaksi yang dipilih dari transactionList
-        transactionList.removeAll(selectedItems);
+        String selectedTransaction = transactionListView.getSelectionModel().getSelectedItem();
 
-        // Menghitung ulang balance dan spending
-        recalculateBalanceAndSpending();
+        if (selectedTransaction != null) {
+            String[] parts = selectedTransaction.split(" - ");
+            String date = parts[0];
+            String type = parts[1];
+            double amount = Double.parseDouble(parts[2].replace("Rp. ", "").replace(",", "."));
+            String note = parts[3];
 
-        updateLineChart();
+            boolean result = deleteTransaction(userId, date, type, amount, note);
+            if (result) {
+                // Menghapus transaksi yang dipilih dari transactionList
+                transactionList.removeAll(selectedTransaction);
 
-        // Memperbarui label
-        updateLabels();
+                // Menghitung ulang balance dan spending
+                recalculateBalanceAndSpending();
+
+                updateLineChart();
+
+                // Memperbarui label
+                updateLabels();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Database Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to delete the transaction. Please try again.");
+                alert.showAndWait();
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a transaction to delete.");
+            alert.showAndWait();
+        }
+    }
+
+    private boolean deleteTransaction(int userId, String date, String type, double amount, String note) {
+        Connection connection = dbConnection.getConnection();
+
+        String query = "DELETE FROM Transactions where user_id = ? AND date = ? AND type = ? AND amount = ? AND description = ? LIMIT 1";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setString(2, date);
+            preparedStatement.setString(3, type);
+            preparedStatement.setDouble(4, amount);
+            preparedStatement.setString(5, note);
+
+            int result = preparedStatement.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void updatePieChart() {
