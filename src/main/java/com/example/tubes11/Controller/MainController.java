@@ -109,6 +109,7 @@ public class MainController {
     private final String activeStyle = "-fx-text-fill: #FFFFFF; -fx-background-color: #212121;-fx-effect: dropshadow(three-pass-box,  #212121, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
     private String username;
     private int userId;
+    private DatabaseConnection dbConnection = new DatabaseConnection();
 
     private void resetButtonStyles() {
         buttonDashboard.setStyle(defaultStyle);
@@ -244,7 +245,7 @@ public class MainController {
         transactionListView.setItems(transactionList);
 
         addButton.setOnAction(event -> addTransaction(userId));
-        addsavingbutton.setOnAction(event -> addSavingGoal());
+        addsavingbutton.setOnAction(event -> addSavingGoal(userId));
         clearAllButton.setOnAction(event -> clearSelectedTransactions()); // Event handler for clearAllButton
 
         recalculateBalanceAndSpending();
@@ -324,7 +325,6 @@ public class MainController {
 
         transactionList.add(transaction);
 
-        DatabaseConnection dbConnection = new DatabaseConnection();
         Connection connection = dbConnection.getConnection();
 
         String insertTransaction = "INSERT INTO Transactions (user_id, type, amount, description, date) VALUES (?, ?, ?, ?, ?)";
@@ -425,7 +425,7 @@ public class MainController {
         this.totalExpense = totalExpense;
     }
 
-    private void addSavingGoal() {
+    private void addSavingGoal(int userId) {
         String amountText = savingfield.getText();
 
         if (amountText.isEmpty() || !amountText.matches("\\d+(\\.\\d{1,2})?")) {
@@ -440,9 +440,24 @@ public class MainController {
         // Save current state before modifying it
         saveCurrentState();
 
+
         savingGoal = Double.parseDouble(amountText);
         updateLabels();
         savingfield.clear();
+
+        Connection connection = dbConnection.getConnection();
+        String goalToDb = "INSERT INTO Transactions (user_id, goal) VALUES (?, ?)";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(goalToDb);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setDouble(2, savingGoal);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void calculateTotalPerDay() {

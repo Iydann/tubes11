@@ -28,6 +28,8 @@ public class LoginController {
     private Button btn_login;
     @FXML
     private Label label_login;
+    private
+    DatabaseConnection connectNow = new DatabaseConnection();
     public void loginButtonAction(ActionEvent e) {
         //code for show label notification login
         if (txt_username.getText().isBlank() && txt_password.getText().isBlank()) {
@@ -167,7 +169,6 @@ public class LoginController {
 //    }
 
     public int validateLoginDB(String username, String password) {
-        DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String verifyLogin = "SELECT id FROM UserAccounts WHERE username = ? AND password = ?";
@@ -192,8 +193,7 @@ public class LoginController {
     }
 
     public boolean isEmailTaken(String email) {
-        DatabaseConnection connecNow = new DatabaseConnection();
-        Connection connectDB = connecNow.getConnection();
+        Connection connectDB = connectNow.getConnection();
 
         String checkEmail = "SELECT count(1) FROM UserAccounts WHERE email = ?";
 
@@ -213,7 +213,6 @@ public class LoginController {
     }
 
     public boolean isUsernameTaken(String username) {
-        DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String checkUsername = "SELECT count(1) FROM UserAccounts WHERE username = ?";
@@ -234,7 +233,6 @@ public class LoginController {
     }
 
     public boolean saveUser(String username, String password, String email) {
-        DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
         String insertUser = "INSERT INTO UserAccounts (username, password, email) VALUES (?, ?, ?)";
