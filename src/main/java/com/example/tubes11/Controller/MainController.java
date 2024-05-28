@@ -513,7 +513,7 @@ public class MainController {
         savingfield.clear();
 
         Connection connection = dbConnection.getConnection();
-        String goalToDb = "INSERT INTO Transactions (user_id, goal) VALUES (?, ?)";
+        String goalToDb = "INSERT INTO Goal (user_id, amount) VALUES (?, ?) ON DUPLICATE KEY UPDATE amount = VALUES(amount)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(goalToDb);
