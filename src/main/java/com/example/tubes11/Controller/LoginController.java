@@ -1,6 +1,6 @@
 package com.example.tubes11.Controller;
 
-import com.example.tubes11.DatabaseConnection;
+import com.example.tubes11.Util.DatabaseConnection;
 
 import java.sql.*;
 

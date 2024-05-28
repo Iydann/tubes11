@@ -1,4 +1,4 @@
-package com.example.tubes11;
+package com.example.tubes11.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,6 +1,6 @@
 package com.example.tubes11.Controller;
 
-import com.example.tubes11.DatabaseConnection;
+import com.example.tubes11.Util.DatabaseConnection;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -20,7 +19,6 @@ import javafx.stage.Stage;
 
 import java.sql.*;
 
-import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 import java.time.LocalDate;
@@ -30,9 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainController {
-    @FXML
-    private TextArea textAreaMyNote;
-
     @FXML
     private LineChart financialGraph;
 
