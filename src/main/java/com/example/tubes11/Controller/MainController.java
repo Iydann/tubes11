@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainController {
@@ -235,6 +236,7 @@ public class MainController {
                 "Income", "Expense"
         ));
 
+        loadTransactions(userId);
         updateLabels();
 
         transactionListView.setItems(transactionList);
@@ -283,6 +285,30 @@ public class MainController {
         dateUpdater.play();
     }
 
+    private void loadTransactions(int userId) {
+        Connection connection = dbConnection.getConnection();
+        String query = "SELECT date, type, amount, description FROM Transactions WHERE user_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            transactionList.clear();
+
+            while (resultSet.next()) {
+                String date = resultSet.getString("date");
+                String type = resultSet.getString("type");
+                double amount = resultSet.getDouble("amount");
+                String note = resultSet.getString("description");
+
+                String transaction = String.format("%s - %s - Rp. %.2f - %s", date, type, amount, note);
+                transactionList.add(transaction);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void updateLabels() {
         balanceAmount.setText(String.format("Rp. %.2f", balance));
@@ -316,9 +342,9 @@ public class MainController {
         String formattedDate = dateLabel.getText();
 
         // Membuat item transaksi dengan tanggal
-        String transaction = String.format("%s - %s - Rp. %.2f - %s", formattedDate, type, amount, note);
-
-        transactionList.add(transaction);
+//        String transaction = String.format("%s - %s - Rp. %.2f - %s", formattedDate, type, amount, note);
+//
+//        transactionList.add(transaction);
 
         Connection connection = dbConnection.getConnection();
 
@@ -593,6 +619,8 @@ public class MainController {
         this.username = username;
         this.userId = userId;
         welcomeLabel.setText("Welcome, " + username);
+
+        loadTransactions(userId);
     }
 
 }
