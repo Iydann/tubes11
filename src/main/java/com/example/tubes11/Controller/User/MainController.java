@@ -204,6 +204,8 @@ public class MainController {
         ));
 
         loadTransactions(userId);
+        totalIncomeExpense(userId);
+        savingGoal = getGoal(userId);
         updateLabels();
 
         transactionListView.setItems(transactionList);
@@ -272,6 +274,55 @@ public class MainController {
                 String transaction = String.format("%s - %s - Rp. %.2f - %s", date, type, amount, note);
                 transactionList.add(transaction);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private double getGoal(int userId) {
+        Connection connection = dbConnection.getConnection();
+        String query = "SELECT amount FROM Goal WHERE user_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getDouble("amount");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0.00;
+    }
+
+    private void totalIncomeExpense (int userId) {
+        Connection connection = dbConnection.getConnection();
+        String query = "SELECT type, amount FROM Transactions WHERE user_id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            double income = 0.00;
+            double expense = 0.00;
+
+            while (resultSet.next()) {
+                String type = resultSet.getString("type");
+                double amount = resultSet.getDouble("amount");
+
+                if (type.equals("Income")) {
+                    income += amount;
+                } else if (type.equals("Expense")) {
+                    expense += amount;
+                }
+            }
+
+            this.totalIncome = income;
+            this.totalExpense = expense;
         } catch (SQLException e) {
             e.printStackTrace();
         }

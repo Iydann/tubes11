@@ -108,7 +108,7 @@ public class AuthController {
     private void loadMainScene(User user) {
         try {
             URL fxmlLocation;
-            if ("admin".equals(txt_username.getText().trim())) {
+            if ("admin".equals(user.getUsername())) {
                 fxmlLocation = getClass().getResource("/com/example/tubes11/view/AdminMain.fxml");
             } else {
                 fxmlLocation = getClass().getResource("/com/example/tubes11/view/Main.fxml");
