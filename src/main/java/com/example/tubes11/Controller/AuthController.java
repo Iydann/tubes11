@@ -1,5 +1,6 @@
 package com.example.tubes11.Controller;
 
+import com.example.tubes11.Controller.User.MainController;
 import com.example.tubes11.Util.DatabaseConnection;
 import com.example.tubes11.Models.User;
 import javafx.event.ActionEvent;
@@ -103,17 +104,27 @@ public class AuthController {
         pane_login.setVisible(true);
     }
 
+
     private void loadMainScene(User user) {
         try {
-            URL fxmlLocation = getClass().getResource("/com/example/tubes11/view/Main.fxml");
+            URL fxmlLocation;
+            if ("admin".equals(txt_username.getText().trim())) {
+                fxmlLocation = getClass().getResource("/com/example/tubes11/view/AdminMain.fxml");
+            } else {
+                fxmlLocation = getClass().getResource("/com/example/tubes11/view/Main.fxml");
+            }
+
             if (fxmlLocation == null) {
                 throw new IOException("FXML file not found");
             }
+
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
 
             MainController mainController = loader.getController();
             mainController.setUsername(user.getUsername(), user.getId());
+            mainController.initSwitchPane();
+            mainController.initialize();
 
             Stage stage = (Stage) label_login.getScene().getWindow();
             Scene scene = new Scene(root, 1400, 900);
@@ -125,6 +136,7 @@ public class AuthController {
             ex.printStackTrace();
         }
     }
+
 
     private User validateLoginDB(String username, String password) {
         Connection connectDB = connectNow.getConnection();

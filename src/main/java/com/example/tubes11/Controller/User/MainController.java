@@ -1,6 +1,7 @@
-package com.example.tubes11.Controller;
+package com.example.tubes11.Controller.User;
 
 import com.example.tubes11.Util.DatabaseConnection;
+import com.example.tubes11.Util.SwitchHandler;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,7 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MainController {
@@ -36,22 +36,22 @@ public class MainController {
     private PieChart financialChart;
 
     @FXML
-    private AnchorPane DashboardPane;
+    private AnchorPane dashboardPane;
 
     @FXML
-    private AnchorPane ChartPane;
+    private AnchorPane chartPane;
 
     @FXML
-    private AnchorPane GraphPane;
+    private AnchorPane graphPane;
 
     @FXML
-    private AnchorPane AlarmPane;
+    private AnchorPane alarmPane;
 
     @FXML
-    private AnchorPane MorePane;
+    private AnchorPane morePane;
 
     @FXML
-    private AnchorPane HomePane;
+    private AnchorPane homePane;
 
     @FXML
     private Label currentDateLabel;
@@ -101,91 +101,48 @@ public class MainController {
     @FXML
     private Button buttonMore;
 
-    private final String defaultStyle = "-fx-text-fill: #000000; -fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, #AAAAAA, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
-    private final String activeStyle = "-fx-text-fill: #FFFFFF; -fx-background-color: #212121;-fx-effect: dropshadow(three-pass-box,  #212121, 3, 0, 0, 3); -fx-pref-width: 150; -fx-font-size: 1.5em; -fx-font-family: 'Calibri Light'; -fx-pref-height: 40";
     private String username;
     private int userId;
     private DatabaseConnection dbConnection = new DatabaseConnection();
 
-    private void resetButtonStyles() {
-        buttonDashboard.setStyle(defaultStyle);
-        buttonGraph.setStyle(defaultStyle);
-        buttonAlarm.setStyle(defaultStyle);
-        buttonMore.setStyle(defaultStyle);
-        buttonChart.setStyle(defaultStyle);
-        buttonHome.setStyle(defaultStyle);
+    private SwitchHandler switchHandler;
+
+    @FXML
+    public void initSwitchPane() {
+        switchHandler = new SwitchHandler(homePane, dashboardPane, chartPane,
+                graphPane, alarmPane, morePane,
+                buttonHome, buttonDashboard, buttonChart,
+                buttonGraph, buttonAlarm, buttonMore);
     }
 
     @FXML
     public void handleSwitchToHome() {
-        HomePane.setVisible(true);
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-        ChartPane.setVisible(false);
-        resetButtonStyles();
-        buttonHome.setStyle(activeStyle);
+        switchHandler.handleSwitchToHome();
     }
 
     @FXML
     public void handleSwitchToDashboard() {
-        HomePane.setVisible(false);
-        DashboardPane.setVisible(true);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-        ChartPane.setVisible(false);
-        resetButtonStyles();
-        buttonDashboard.setStyle(activeStyle);
+        switchHandler.handleSwitchToDashboard();
     }
 
     @FXML
     public void handleSwitchToPieChart() {
-        HomePane.setVisible(false);
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-        ChartPane.setVisible(true);
-        resetButtonStyles();
-        buttonChart.setStyle(activeStyle);
+        switchHandler.handleSwitchToPieChart();
     }
 
     @FXML
     public void handleSwitchToGraph() {
-        HomePane.setVisible(false);
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(true);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(false);
-        ChartPane.setVisible(false);
-        resetButtonStyles();
-        buttonGraph.setStyle(activeStyle);
+        switchHandler.handleSwitchToGraph();
     }
 
     @FXML
     public void handleSwitchToAlarm() {
-        HomePane.setVisible(false);
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(true);
-        MorePane.setVisible(false);
-        ChartPane.setVisible(false);
-        resetButtonStyles();
-        buttonAlarm.setStyle(activeStyle);
+        switchHandler.handleSwitchToAlarm();
     }
 
     @FXML
     public void handleSwitchToMore() {
-        HomePane.setVisible(false);
-        DashboardPane.setVisible(false);
-        GraphPane.setVisible(false);
-        AlarmPane.setVisible(false);
-        MorePane.setVisible(true);
-        ChartPane.setVisible(false);
-        resetButtonStyles();
-        buttonMore.setStyle(activeStyle);
+        switchHandler.handleSwitchToMore();
     }
 
     @FXML
@@ -198,7 +155,13 @@ public class MainController {
     private Label expensesAmount;
 
     @FXML
-    private TextArea noteField;
+    protected TextArea noteField;
+
+    @FXML
+    protected TextArea homeTextArea;
+
+    @FXML
+    protected TextArea updateLogTextArea;
 
     @FXML
     private TextField savingfield;
@@ -231,6 +194,10 @@ public class MainController {
     private ChoiceBox<String> transactionTypeChoiceBox;
 
     public void initialize() {
+        // Untuk mengedit Bila akun adalah admin
+        homeTextArea.setEditable(false );
+        updateLogTextArea.setEditable(false);
+
         // Adding options to ChoiceBox
         transactionTypeChoiceBox.setItems(FXCollections.observableArrayList(
                 "Income", "Expense"
