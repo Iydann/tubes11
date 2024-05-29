@@ -195,7 +195,7 @@ public class MainController {
 
     public void initialize() {
         // Untuk mengedit Bila akun adalah admin
-        homeTextArea.setEditable(false );
+        homeTextArea.setEditable(false);
         updateLogTextArea.setEditable(false);
 
         // Adding options to ChoiceBox
