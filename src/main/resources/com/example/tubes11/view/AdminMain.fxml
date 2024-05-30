@@ -10,6 +10,8 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -26,6 +28,11 @@
                   <VBox layoutY="14.0" prefHeight="100.0" prefWidth="200.0" style="-fx-alignment: center; -fx-background-color: #212121; -fx-background-radius: 0 25 0 0; -fx-padding: 10;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label style="-fx-font-family: &quot;Calibri Light&quot;; -fx-font-size: 2em; -fx-text-fill: #ffffff;" text="Money Manager" />
+                        <ImageView fitHeight="52.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../assets/moneyManagerIcon.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </VBox>
                   <VBox layoutX="14.0" layoutY="100.0" prefHeight="365.0" prefWidth="181.0" style=" -fx-padding: 20 10 20 10; -fx-spacing: 20; -fx-alignment: center_left;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0">

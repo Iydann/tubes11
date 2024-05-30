@@ -17,8 +17,7 @@ public class AdminMainController extends MainController {
         super.initialize();
 
         // Mengubah editable dari homeTextArea dan updateLogTextArea menjadi true
-        homeTextArea.setEditable(true);
-        updateLogTextArea.setEditable(true);
+        aksesEditAdmin();
     }
 
     // Fungsi untuk menampilkan pesan fitur admin
@@ -32,6 +31,11 @@ public class AdminMainController extends MainController {
             messageAdmin.setVisible(false); // Sembunyikan TextArea setelah 3 detik
         }));
         timeline.play();
+    }
+
+    private void aksesEditAdmin() {
+        homeTextArea.setEditable(true);
+        updateLogTextArea.setEditable(true);
     }
 
 }
