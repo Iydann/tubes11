@@ -122,7 +122,7 @@ public class AuthController {
             Parent root = loader.load();
 
             MainController mainController = loader.getController();
-            mainController.setUsername(user.getUsername(), user.getId());
+            mainController.setData(user.getUsername(), user.getId());
             mainController.initSwitchPane();
             mainController.initialize();
 

@@ -25,8 +25,6 @@ import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainController {
     @FXML
@@ -103,7 +101,8 @@ public class MainController {
 
     private String username;
     private int userId;
-    private DatabaseConnection dbConnection = new DatabaseConnection();
+    private final DatabaseConnection dbConnection = new DatabaseConnection();
+    private Connection connection;
 
     private SwitchHandler switchHandler;
 
@@ -170,14 +169,9 @@ public class MainController {
     private Button clearAllButton; // New button for clearing selected transactions
 
     private double balance = 0.00;
-    private double spending = 0.00;
     private double savingGoal = 0.00;
     private double totalIncome = 0.00; // New variable for total income
     private double totalExpense = 0.00; // New variable for total expense
-
-    private double previousBalance = 0.00;
-    private double previousSpending = 0.00;
-    private double previousSavingGoal = 0.00;
 
     private ObservableList<String> transactionList = FXCollections.observableArrayList();
 
@@ -187,13 +181,12 @@ public class MainController {
     @FXML
     private ListView<String> transactionListView;
 
-    private Map<LocalDate, Double> incomePerDay = new HashMap<>();
-    private Map<LocalDate, Double> expensePerDay = new HashMap<>();
-
     @FXML
     private ChoiceBox<String> transactionTypeChoiceBox;
 
     public void initialize() {
+        this.connection = dbConnection.getConnection();
+
         // Untuk mengedit Bila akun adalah admin
         homeTextArea.setEditable(false);
         updateLogTextArea.setEditable(false);
@@ -203,20 +196,14 @@ public class MainController {
                 "Income", "Expense"
         ));
 
-        loadTransactions(userId);
-        totalIncomeExpense(userId);
-        savingGoal = getGoal(userId);
-        updateLabels();
+        getGoal(userId);
+        updater(userId);
 
         transactionListView.setItems(transactionList);
 
         addButton.setOnAction(event -> addTransaction(userId));
         addsavingbutton.setOnAction(event -> addSavingGoal(userId));
         clearAllButton.setOnAction(event -> clearSelectedTransactions(userId)); // Event handler for clearAllButton
-
-        recalculateBalanceAndSpending();
-        updatePieChart();
-
 
         // Inisialisasi Timeline untuk memperbarui waktu secara real-time
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
@@ -254,8 +241,15 @@ public class MainController {
         dateUpdater.play();
     }
 
+    private void updater(int userId) {
+        loadTransactions(userId);
+        recalculateBalanceAndSpending();
+        updatePieChart();
+        updateLineChart();
+        updateLabels();
+    }
+
     private void loadTransactions(int userId) {
-        Connection connection = dbConnection.getConnection();
         String query = "SELECT date, type, amount, description FROM Transactions WHERE user_id = ?";
 
         try {
@@ -279,8 +273,7 @@ public class MainController {
         }
     }
 
-    private double getGoal(int userId) {
-        Connection connection = dbConnection.getConnection();
+    private void getGoal(int userId) {
         String query = "SELECT amount FROM Goal WHERE user_id = ?";
 
         try {
@@ -289,48 +282,17 @@ public class MainController {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                return resultSet.getDouble("amount");
+                this.savingGoal = resultSet.getDouble("amount");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return 0.00;
-    }
-
-    private void totalIncomeExpense (int userId) {
-        Connection connection = dbConnection.getConnection();
-        String query = "SELECT type, amount FROM Transactions WHERE user_id = ?";
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            double income = 0.00;
-            double expense = 0.00;
-
-            while (resultSet.next()) {
-                String type = resultSet.getString("type");
-                double amount = resultSet.getDouble("amount");
-
-                if (type.equals("Income")) {
-                    income += amount;
-                } else if (type.equals("Expense")) {
-                    expense += amount;
-                }
-            }
-
-            this.totalIncome = income;
-            this.totalExpense = expense;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     private void updateLabels() {
         balanceAmount.setText(String.format("Rp. %.2f", balance));
-        spendingAmount.setText(String.format("Rp. %.2f", spending));
+        spendingAmount.setText(String.format("Rp. %.2f", totalExpense));
         incomeAmount.setText(String.format("Rp. %.2f", totalIncome)); // Update label incomeAmount
         Savinggoal.setText(String.format("Rp. %.2f", savingGoal));
         Savinggoal1.setText(String.format("Rp. %.2f", balance - savingGoal));
@@ -351,18 +313,10 @@ public class MainController {
             return;
         }
 
-        // Menyimpan keadaan saat ini sebelum memodifikasi
-        saveCurrentState();
-
         double amount = Double.parseDouble(amountText);
 
         // Mendapatkan tanggal dari label tanggal (dateLabel)
         String formattedDate = dateLabel.getText();
-
-        // Membuat item transaksi dengan tanggal
-//        String transaction = String.format("%s - %s - Rp. %.2f - %s", formattedDate, type, amount, note);
-//
-//        transactionList.add(transaction);
 
         Connection connection = dbConnection.getConnection();
 
@@ -381,48 +335,33 @@ public class MainController {
             e.printStackTrace();
         }
 
-        // Menghitung ulang balance dan spending dari transactionList
-        recalculateBalanceAndSpending();
-        updatePieChart();
-
-        updateLineChart();
-        updateLabels();
+        updater(userId);
 
         amountField.clear();
         noteField.clear();
     }
 
     private void clearSelectedTransactions(int userId) {
-        // Mendapatkan item yang dipilih dari transactionListView
-//        ObservableList<String> selectedItems = transactionListView.getSelectionModel().getSelectedItems();
-
         String selectedTransaction = transactionListView.getSelectionModel().getSelectedItem();
 
         if (selectedTransaction != null) {
             String[] parts = selectedTransaction.split(" - ");
-            String date = parts[0];
-            String type = parts[1];
-            double amount = Double.parseDouble(parts[2].replace("Rp. ", "").replace(",", "."));
-            String note = parts[3];
+            if (parts.length >= 3) {
+                String date = parts[0];
+                String type = parts[1];
+                double amount = Double.parseDouble(parts[2].replace("Rp. ", "").replace(",", "."));
+                String note = (parts.length == 4) ? parts[3] : "";
 
-            boolean result = deleteTransaction(userId, date, type, amount, note);
-            if (result) {
-                // Menghapus transaksi yang dipilih dari transactionList
-                transactionList.removeAll(selectedTransaction);
-
-                // Menghitung ulang balance dan spending
-                recalculateBalanceAndSpending();
-
-                updateLineChart();
-
-                // Memperbarui label
-                updateLabels();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Database Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to delete the transaction. Please try again.");
-                alert.showAndWait();
+                boolean result = deleteTransaction(userId, date, type, amount, note);
+                if (result) {
+                    updater(userId);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Database Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to delete the transaction. Please try again.");
+                    alert.showAndWait();
+                }
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -463,6 +402,7 @@ public class MainController {
             financialChart.setData(pieChartData);
         }
     }
+
     private void updateLineChart() {
         // Bersihkan line chart dari data sebelumnya
         financialGraph.getData().clear();
@@ -504,8 +444,7 @@ public class MainController {
                 totalExpense += transAmount;
             }
         }
-        balance = totalIncome - totalExpense;
-        spending = totalExpense;
+        this.balance = totalIncome - totalExpense;
         this.totalIncome = totalIncome;
         this.totalExpense = totalExpense;
     }
@@ -521,10 +460,6 @@ public class MainController {
             alert.showAndWait();
             return;
         }
-
-        // Save current state before modifying it
-        saveCurrentState();
-
 
         savingGoal = Double.parseDouble(amountText);
         updateLabels();
@@ -543,30 +478,6 @@ public class MainController {
             e.printStackTrace();
         }
 
-    }
-
-    private void calculateTotalPerDay() {
-        incomePerDay.clear();
-        expensePerDay.clear();
-
-        for (String transaction : transactionList) {
-            String[] parts = transaction.split(":");
-            if (parts.length == 2) {
-                String type = parts[0].trim();
-                String amountStr = parts[1].trim().replace("Rp.", "").replace(",", "");
-                double amount = Double.parseDouble(amountStr);
-
-                LocalDate transactionDate = LocalDate.parse(dateLabel.getText());
-                Map<LocalDate, Double> targetMap = type.equals("Income") ? incomePerDay : expensePerDay;
-                targetMap.put(transactionDate, targetMap.getOrDefault(transactionDate, 0.0) + amount);
-            }
-        }
-    }
-
-    private void saveCurrentState() {
-        previousBalance = balance;
-        previousSpending = spending;
-        previousSavingGoal = savingGoal;
     }
 
     @FXML
@@ -633,12 +544,10 @@ public class MainController {
         });
     }
 
-    public void setUsername(String username, int userId) {
+    public void setData(String username, int userId) {
         this.username = username;
         this.userId = userId;
         welcomeLabel.setText("Welcome, " + username);
-
-        loadTransactions(userId);
     }
 
 }
